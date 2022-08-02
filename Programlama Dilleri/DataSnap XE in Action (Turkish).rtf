@@ -1,0 +1,912 @@
+{\rtf1\ansi\ansicpg1254\deff0\deflang1055{\fonttbl{\f0\fnil\fcharset238{\*\fname Courier New;}Courier New CE;}{\f1\fnil\fcharset162 Verdana;}{\f2\fnil\fcharset162{\*\fname Courier New;}Courier New TUR;}{\f3\fnil\fcharset0 Verdana;}{\f4\fnil MS Sans Serif;}{\f5\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red96\green96\blue96;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\cf1\lang1033\f0\fs32\par
+\b === Programlama ve Tasar\u305?m ===\par
+\b0\par
+\fs24\par
+\ul\b --- DataSnap XE in Action ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- \lang1055\f2\'dd\lang1033\f0\'ba \u304?\'e7in DataSnap ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Ge\'e7en sene RAD, Delphi 2010 ve \'fcst\'fc i\'e7in DataSnap ile ilgili olarak bir d\'f6k\'fcman yay\'fdnlad\'fd. Bu d\'f6k\'fcman \'e7ok katmanl\'fd uygulamalar ve DataSnap'in ana kurallar\'fd i\'e7in iyi bir ba\'felang\'fd\'e7 temsil ediyordu. Bununla beraber pek \'e7ok \'f6nemli geli\'feim ve de\'f0i\'feim olmu\'fetur. Esas d\'f6k\'fcman\'fd tekrar yazmak yerine DataSnap'i pratik olarak kullanmay\'fd \'f6\'f0retmeyi, bunu yaparken de var olan ve \'f6zellikle yeni ve fonksiyonel olan noktalar\'fd vurgulamay\'fd do\'f0ru bulduk.\par
+\tab Yeni, DataSnap fonksiyonelli\'f0i, bu d\'f6k\'fcman i\'e7erisinde a\'fea\'f0\'fdda belirtilen noktalarda anlat\'fdlmaya \'e7al\'fd\'fe\'fdld\'fd.\par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-200\li920 DataSnap Sunucu Sihirbazlar\'fd\par
+{\pntext\f5\'B7\tab}ISAPI DLL'leri i\'e7in HTTPS Deste\'f0i\par
+{\pntext\f5\'B7\tab}Kriptolama Filtreleri (HTTPS kullanmad\'fd\'f0\'fdn\'fdz zaman)\par
+{\pntext\f5\'B7\tab}Geli\'fetirilmi\'fe TAuthenticationManager Bile\'feeni\par
+{\pntext\f5\'B7\tab}Sunucu metodlar\'fd i\'e7in rol-tabanl\'fd Yetkilendirme \'f6zellikleri\par
+{\pntext\f5\'B7\tab}TDataSetProvider i\'e7in rol-tabanl\'fd Yetkilendirme\par
+{\pntext\f5\'B7\tab}TDSSessionManager\par
+{\pntext\f5\'B7\tab}HTTPS/SSL \'fczerinde da\'f0\'fdt\'fdm (IIS i\'e7inde)\par
+\pard\li720\par
+\pard\tab Ayr\'fdca DataSnap'in daha \'f6nceki versiyonunda hali haz\'fdrda var olan \'f6zelliklerin de \'fczerinden ge\'e7ece\'f0im, ama bunlar bir \'f6nceki d\'f6k\'fcman\'fdmda anlatt\'fd\'f0\'fdm \'f6zellikler olmayacak. Burada bahsedece\'f0im \'f6zellikler de a\'fea\'f0\'fdda belirtilmi\'fetir.\par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-200\li920 Da\'f0\'fdt\'fdlacak Sunucu Mod\'fcl Metodlar\'fdn\'fd nas\'fdl gizleriz?\par
+{\pntext\f5\'B7\tab}Anahtar alanlar\'fd otomatik olarak art\'fdrma\par
+{\pntext\f5\'B7\tab}\'ddstemciden sunucuya parametre de\'f0erleri g\'f6ndermek\par
+{\pntext\f5\'B7\tab}Sunucu taraf\'fdnda parametre de\'f0erleri atamak\par
+\pard\li720\par
+\pard\tab Bu d\'f6k\'fcmanda, bir ka\'e7 saat i\'e7inde haz\'fdrlanan ve ayn\'fd g\'fcn i\'e7erisinde hizmete sunulan bir DataSnap uygulamas\'fdndan bahsedece\'f0im.\par
+\tab Uygulama sorun monit\'f6rleme ve izleme ile ilgili olan, Geli\'feim Olay Raporlama Arac\'fd (Development Issue Report Tool - DIRT (t\'fcrk\'e7e kirli demek)) olarak adland\'fdr\'fdlan bir uygulamad\'fdr.Bu sistem hali haz\'fdrda zaten baz\'fd m\'fc\'feterilerim taraf\'fdndan kullan\'fdlmakta ve program\'fd kullan\'fdrken kendi aralar\'fdnda hadi baz\'fd kirlileri (DIRT)temizleyelim diye birbirlerine \'feakalar yapmaktad\'fdr.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Veri Modeli ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Uygulamay\'fd geli\'fetirmeye ba\'felamadan \'f6nce sorunlar\'fd tan\'fdmlamak ve geli\'fetiricilerin bu sorunlar \'fczerinde \'e7al\'fd\'fearak rapor \'e7\'fdkarmas\'fdn\'fd sa\'f0layacak bir veri modeli geli\'fetirmemiz gerekmektedir. Bu veri modelini geli\'fetirmek, son kullan\'fdc\'fdlarla yap\'fdlan bir beyin f\'fdrt\'fdnas\'fd ile m\'fcmk\'fcn olmakta, ve \'e7\'fdkan sonu\'e7 a\'fea\'f0\'fdda g\'f6sterilmektedir.\par
+\tab\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Kullan\u305?c\u305? Tablosu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Kullan\'fdc\'fd tablosu, uygulamaya eri\'femek isteyecek di\'f0er kullan\'fdc\'fdlar ve test\'e7i olarak atanacak geli\'fetirici kullan\'fdc\'fdlar\'fd i\'e7eren bir tablodur. Gerekli olan bilgiler; bir kullan\'fdc\'fd ad\'fd, bir hashlenmi\'fe \'feifre ve bir adet e-posta adresidir. Adres ve telefon numaras\'fd gibi di\'f0er alanlar ihtiya\'e7 duyuldu\'f0unda eklenebilir. Bizim \'f6rne\'f0imizde kullan\'fdc\'fdn\'fdn, "geli\'fetirici", "test\'e7i", "y\'f6netici" gibi bir rol\'fc olacakt\'fdr. Sistem kullan\'fdc\'fds\'fd bu rolleri \'f6zel bir "admin" rol\'fc ile birlikte kullanabilecektir. Bu teknik bir kullan\'fdc\'fd i\'e7in birden \'e7ok rol gerekti\'f0i zaman virg\'fcllerle yan\'fdna eklenerek geni\'feletilebilir.\par
+\tab\par
+\tab CREATE TABLE [dbo].[User]( \par
+   \tab\tab [UserID] [int] IDENTITY(1,1) NOT NULL, \par
+   \tab\tab [Name] [nvarchar](50) NOT NULL, \par
+   \tab\tab [PasswordHASH] [nvarchar](50) NOT NULL, \par
+\tab\tab [Role] [nvarchar](32) NOT NULL, \par
+   \tab\tab [Email] [nvarchar](50) NOT NULL \par
+\tab ) \par
+\par
+\tab Kullan\'fdc\'fdn\'fdn sadece HASHlenmi\'fe \'feifresini saklamal\'fd, ger\'e7ek \'feifresini herhangi bir yerde saklamamal\'fdy\'fdz. Bu demektir ki uygulaman\'fdn istemci ve sunucu taraflar\'fdnda g\'fcvenli bir ba\'f0lant\'fd i\'e7in sadece hashlenmi\'fe \'feifreler g\'f6nderilecektir. Hash bilgisinin k\'fdsaca nas\'fdl olu\'feturuldu\'f0unu ve g\'fcvenli bir ba\'f0lant\'fdn\'fdn kuruldu\'f0undan nas\'fdl emin olaca\'f0\'fdm\'fdz\'fd ilerde g\'f6rece\'f0iz.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Rapor Tablosu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Rapor tablosu en detayl\'fd datasetimizdir. Burada Projeyi, Versiyonu (opsiyonel), Mod\'fcl\'fc (opsiyonel), \'d6nceli\'f0ini, Sorunun T\'fcr\'fcn\'fc anlatacak bir rapor olu\'feturabilmeliyiz. (Twit edilmeye haz\'fdr olacak \'feekilde 140 karakterlik bir k\'fdsa \'f6zeti de bulunmal\'fd) Sorunun Durum bilgisi (raporland\'fd, atand\'fd, a\'e7\'fdld\'fd, \'e7\'f6z\'fcld\'fc, test edildi, yay\'fdnland\'fd, kapand\'fd) ile ilgili olarak \'f6zel bir alan tutulmal\'fdd\'fdr. Ayr\'fdca; rapor tarihi, rapor eden \'feah\'fds, soruna atanan \'feah\'fds (sonra atanacak olan \'feah\'fds opsiyoneldir), ba\'felang\'fd\'e7tan sorunu kimin \'e7\'f6zece\'f0ine ba\'f0l\'fd olarak \'f6nemli bilgilerdir.\par
+\par
+\tab CREATE TABLE [dbo].[Report]( \par
+   \tab\tab [ReportID] [int] IDENTITY(1,1) NOT NULL, \par
+   \tab\tab [Project] [nvarchar](50) NOT NULL, \par
+   \tab\tab [Version] [nvarchar](20) NULL, \par
+   \tab\tab [Module] [nvarchar](50) NULL, \par
+   \tab\tab [IssueType] [int] NOT NULL, \par
+   \tab\tab [Priority] [int] NOT NULL, \par
+   \tab\tab [Status] [int] NOT NULL, \par
+   \tab\tab [ReportDate] [datetime] NOT NULL, \par
+   \tab\tab [ReporterID] [int] NOT NULL, \par
+   \tab\tab [AssignedTo] [int] NULL, \par
+   \tab\tab [Summary] [nvarchar](140) NOT NULL, \par
+   \tab\tab [Report] [nvarchar](4000) NOT NULL \par
+\tab ) \par
+ \par
+\tab Unutmamak gerekir ki diyagramda da belirtildi\'f0i gibi ReporterID ve AssignedTo alanlar\'fd Kullan\'fdc\'fd tablosuna atanm\'fd\'fe birer yabanc\'fd anahtard\'fdr (foreign key). Ayr\'fdca unutmamak gerekir ki IssueType (Sorun T\'fcr\'fc), Priority (\'d6ncelik), Status (Durum) alanlar\'fd da tamsay\'fd (integer) alanlard\'fdr. Mesela 1den 10a kadar olan bu de\'f0erler daha \'f6nce bir yerlerde tan\'fdmlanm\'fd\'fe olmal\'fdd\'fdr. Bunlarla ilgili olarak tan\'fdmlamalar\'fdn string t\'fcr\'fcnde yap\'fdld\'fd\'f0\'fd tablolar\'fd ekledik ama GUI (grafik aray\'fcz) taraf\'fdnda bunlar\'fd g\'f6stererek rpogram\'fdn i\'e7erisinde tamsay\'fd de\'f0erleri kulland\'fdk. \par
+\tab Burada \'fczerinde anla\'fet\'fd\'f0\'fdm\'fdz bir kural var ki \'d6ncelik ve Sorun T\'fcr\'fc alanlar\'fdndaki de\'f0erler artt\'fdk\'e7a sorunun da \'f6nemi artar. Yani \'d6ncelik De\'f0eri ve Sorun T\'fcr\'fc De\'f0eri 10 olan bir sorun, \'d6ncelik De\'f0eri 1 ve Sorun T\'fcr\'fc De\'f0eri 1 olan bir sorundan daha \'f6nemlidir.\par
+\tab Ayr\'fdca Durum alan\'fd ile ilgili olarak da ek bir tablo olu\'feturduk ama GUI'nin kendi kendi halletmesi i\'e7in izin verdik ayn\'fd \'feekilde (Sorun T\'fcr\'fc ve \'d6ncelik ile ilgili \'f6zel tablolar d\'f6k\'fcmanda var)\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Yorum Tablosu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Yorum tablosu, sorun ile ilgili olarak neler yap\'fdld\'fd\'f0\'fdn\'fd, ne raporland\'fd\'f0\'fdn\'fd vs. bilgileri i\'e7eren bir log dosyas\'fdna benzer bir bi\'e7imde i\'fe ak\'fd\'fe\'fd veya log kitab\'fd gibi bilgileri i\'e7eren bir tablodur. Bu demektir ki her sorun raporu i\'e7in, kullan\'fdc\'fdn\'fdn yerle\'fetirece\'f0i bir yoruma sahip olabiliriz. (Esas i\'felemi g\'f6rmek amac\'fdyla belli bir tarihte)\par
+\par
+\tab CREATE TABLE [dbo].[Comment]( \par
+   \tab\tab [CommentID] [int] IDENTITY(1,1) NOT NULL, \par
+   \tab\tab [ReportID] [int] NOT NULL, \par
+   \tab\tab [UserID] [int] NOT NULL, \par
+   \tab\tab [CommentDate] [datetime] NOT NULL, \par
+   \tab\tab [Comment] [nvarchar](4000) NOT NULL, \par
+\tab ) \par
+\par
+\tab Bu 3 tablo DIRT projesi ile ilgili olarak DataSnap Sunucu uygulamas\'fdn\'fd geli\'fetirebilmemiz i\'e7in birbirlerine farkl\'fd ReportID, ReporterID, AssignedTo ve UserID alanlar\'fd ile ba\'f0lanm\'fd\'fet\'fdr. Kesinlikle daha \'e7ok tablo ekleyebiliriz. Ama burada amac\'fdm\'fdz, m\'fcmk\'fcn oldu\'f0unca basit bir \'feekilde optimum fonksiyonelli\'f0i ger\'e7ekle\'fetirebilmektir.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- DataSnap Sunucusu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Delphi XE Enterprise veya Architect Object Repository i\'e7erisinde DataSnap Sunucusu olu\'feturabilmemiz i\'e7in en az 3 adet Sihirbaz sunar.\par
+\tab DIRT uygulamas\'fd i\'e7in, bize d\'fcnyan\'fdn her yan\'fdndan g\'fcvenli ve do\'f0ru bir \'feekilde eri\'feilebilecek bir DataSnap sunucu t\'fcr\'fcne ihtiyac\'fdm\'fdz bulunmaktad\'fdr. (Baz\'fd sorun raporlar\'fd, herkese g\'f6stermek istemeyece\'f0imiz baz\'fd dahili detaylara sahip olabilir.) Farkl\'fd mobil cihazlar ve kablosuz ba\'f0lant\'fdlar\'fdn eri\'feimine a\'e7\'fdk olmas\'fd i\'e7in HTTPS (HTTP Secure - G\'fcvenli HTTP) protokol\'fcn\'fcn kullan\'fdm\'fd se\'e7ilir. SSL/TLS sertifikas\'fd da sunucunun g\'fcvenli bir \'feekilde tan\'fdmlanmas\'fd ve kriptolu ileti\'feim i\'e7in kullan\'fdl\'fdr. HTTPS, HTTP'den daha g\'fcvenlidir, zaten bu y\'fczden bu protokole HTTPS denmektedir. Ayr\'fdca, TCP/IP'nin, HTTP ve HTTPS'den daha h\'fdzl\'fd oldu\'f0u ispatlanm\'fd\'fet\'fdr ama buradaki h\'fdz durumu bizi ilgilendirmemektedir bu proje i\'e7in. E\'f0er daha fazla h\'fdz istiyorsan\'fdz, TCP/IP protokol\'fcn\'fc kullanmal\'fds\'fdn\'fdz.\par
+\tab HTTPS se\'e7ene\'f0i, sihirbazlar\'fdn olu\'feturaca\'f0\'fd 2 adet DataSnap Sunucu hedefinin oldu\'f0unu g\'f6steriyor. DataSnap WebBroker taraf\'fdndan olu\'feturulacak bir ISAPI DLL'i veya DataSnap REST Uygulama sihirbaz\'fd. \'ddkisi aras\'fdndaki fark, REST uygulamas\'fd i\'e7in olu\'feturulan ek dosyalard\'fdr. (JavaScript, template, \'feekil sayfalar\'fd ve resimler) Bu ek dosyalara \'feu anda ihityac\'fdm\'fdz olmad\'fd\'f0\'fd i\'e7in se\'e7imimiz DataSnap WebBroker sihirbaz\'fd vas\'fdtas\'fdyla olu\'feturulacak bir ISAPI DLL'idir. Bu ISAPI DLL'i, daha \'f6nce de belirtti\'f0imiz gibi IIS \'fczerinden da\'f0\'fdt\'fdlacakt\'fdr.\par
+\tab DataSnap WebBroker uygulama sihirbaz\'fdn\'fdn 2. sayfas\'fdnda e\'f0er Do\'f0rulama ve Yetkilendirme istiyorsak ve e\'f0er baz\'fd \'f6rnek metodlar\'fd ile bir Sunucu Metodu s\'fdn\'fdf\'fd istiyorsak bunlar\'fd belirtebiliriz. Do\'f0rulama, bir kullan\'fdc\'fdn\'fdn ger\'e7ekten bahsetti\'f0i ki\'fei olup olmad\'fd\'f0\'fdn\'fd belirlemektir (bir kullan\'fdc\'fd ad\'fd ve \'feifre kombinasyonuyla) ve ayn\'fd zamanda hangi fonksiyonelli\'f0in kullan\'fdc\'fd rol\'fcne tan\'fdml\'fd veya yasakl\'fd oldu\'f0unu da belirtmektir.\par
+\tab Bizim durumumuzda, biz hem Do\'f0rulama (Authentication) hem de Yetkilendirme (Auth\'fdrization) ayr\'fdca \'f6rnek metodlara ihtiya\'e7 olmayacak \'feekilde bir Sunucu Metodu S\'fdn\'fdf\'fd istiyoruz. Biz kendimi basit bir \'feekilde kendi metodlar\'fdm\'fdz\'fd ekleyebiliriz.\par
+\tab WebBroker Uygulamas\'fd sihirbaz\'fdn\'fdn son ad\'fdm\'fdnda Sunucu Metodu S\'fdn\'fdf\'fdn\'fdn ata s\'fdn\'fdf\'fdn\'fd (\'f6zelliklerini kal\'fdtaca\'f0\'fd s\'fdn\'fdf) belirleyebiliyoruz. E\'f0er ayn\'fd dataset (TDataSetProviders) ve sunucu metodlar\'fdn\'fd payla\'femak istiyorsak bu b\'f6l\'fcmde TDSServerModule'i se\'e7meliyiz. TComponent ata s\'fdn\'fdf\'fd se\'e7ene\'f0ini se\'e7ersek g\'f6stermek i\'e7in sunucu metodlar\'fdn\'fd tan\'fdmlayabilir, ve ek olarak g\'f6rsel olmayan bile\'feenler i\'e7in TDataModule kullanabiliriz, ama TDSServerModule ata s\'fdn\'fdf\'fd arka tarafta TDSProviderDataModuleAdapter s\'fdn\'fdf\'fdn\'fd kullanarak IAppsServerFastClass interface'inin metodlar\'fdn\'fd da g\'f6stermektedir.\par
+\tab Sihirbazda Bitir butonuna t\'fdklad\'fd\'f0\'fdm\'fdz zaman yeni bir proje 2 adet kaynak dosya ile birlikte olu\'feturulmu\'fe olur. Bir ServerMethods unit'i ve bir web mod\'fcl\'fc ile birlikte. Projeyi DirtServer olarak (ya da kendi DIRT projenize ne isim vermek istiyorsan\'fdz o isimle) sunucu metodlar\'fd dosyas\'fdn\'fd DirtServerMethods.pas ve web mod\'fcl\'fcn\'fc de DirtWebMod.pas olarak kaydetmeliyiz.\par
+\tab Unutmamak gerekir ki sunucu metodu unit'ini yeniden isimlendirdi\'f0imiz zaman, proje derlenemez. Web mod\'fcl \'fcnitindeki uses b\'f6l\'fcm\'fcnde ServerMethods1 yazan yeri DirtServerMethods olarak de\'f0i\'fetirerek kaydetmemiz gerekmektedir.\par
+\tab Ayn\'fd web mod\'fcl\'fc i\'e7inde OnGetClass olay tetikleyicisi i\'e7erisinde PersistentClass \'f6zelli\'f0ine gerekli olan atamay\'fd yapmam\'fdz gerekiyor ki bunla ilgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab procedure TWebModule1.DSServerClass1GetClass( \par
+  \tab DSServerClass: TDSServerClass; \par
+  \tab var PersistentClass: TPersistentClass); \par
+\tab begin \par
+  \tab\tab PersistentClass := DirtServerMethods.TServerMethods1; \par
+\tab end; \par
+\par
+\tab Bu iki d\'fczeltme ile bir ISAPI DLL'i olu\'feturacak DirtServer DataSnap sunucu projesini derlememiz m\'fcmk\'fcn olabilir. Bu demektir  ki do\'f0rulama kontrollerinden ba\'felayarak, art\'fdk ger\'e7ek fonksiyonelli\'f0i eklemeye ba\'felayabiliriz.\par
+  \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Ba\u287?lant\u305? ve Do\u287?rulama ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Daha \'f6nceden modifiye etti\'f0imiz web mod\'fcl\'fc ayn\'fd zamanda DataSnap sunucusu i\'e7in do\'f0rulama ve yetkilendirme i\'felemlerini de yapaca\'f0\'fdm\'fdz yerdir. Bu g\'f6rev i\'e7in elimizdeki anahtar yeni TDSAuthenticationManager bile\'feenidir.\par
+\tab Bu bile\'feende bizim Kullan\'fdc\'fdy\'fd (User), \'deifreyi (Password, Bu DIRT veritaban\'fd i\'e7inde Kullan\'fdc\'fd tablosunda bulunmaktad\'fdr) ve ayn\'fd zamanda eri\'feim i\'e7in gerekli olan protokol\'fc (burada HTTP olmay\'fdp HTTPS oldu\'f0undan emin olmal\'fdy\'fdz) belirleyebilece\'f0imiz bir OnUserAuthenticate olay tetikleyicisi bulunmaktad\'fdr. En ba\'feta ilgili olay tetikleyicisinin kodu ileti\'feim protokol\'fcn\'fcn HTTPS olaca\'f0\'fdndan emin olaca\'f0\'fdm\'fdz bir \'feekilde \'feu \'feekilde yaz\'fdlabilir.\par
+\par
+\tab procedure TWebModule1.DSAuthenticationManager1UserAuthenticate( \par
+  \tab Sender: TObject; const Protocol, Context, User, Password: string; \par
+  \tab var valid: Boolean; UserRoles: TStrings); \par
+\tab begin \par
+  \tab\tab valid := LowerCase(Protocol) = 'https'; \par
+  \tab\tab // now also validate User and Hashed password\lang1033\f3\'85 \par
+\lang1055\f1\tab\lang1033\f3 end; \par
+\par
+\lang1055\f1\tab Bir sonraki ad\'fdm Kullan\'fdc\'fd ve \'deifrenin (esas \'feifrenin hashlenmi\'fe de\'f0erinin) do\'f0rulanaca\'f0\'fd, bunun i\'e7in de bu iki bilginin Kullan\'fdc\'fd tablosunda kar\'fe\'fdl\'fd\'f0\'fd olan bir kombinasyonunu sorgulama i\'felemi yap\'fdl\'fdr, k\'fds\'fdm olacakt\'fdr. \par
+\tab Bunun i\'e7in temel amac\'fd Kullan\'fdc\'fd tablosuna direkt bir uygulama yapmak olan lokal bir TSQLConnection bile\'feeni kullanabiliriz. Alternatif olarak kullan\'fdc\'fd adlar\'fd ve hashlenmi\'fe \'feifreleri sunucu makinada bir konfig\'fcrasyon dosyas\'fdnda veya passwd.ini dosyas\'fdnda tutarak kullan\'fdc\'fd ba\'f0lanmay\'fd denedi\'f0inde bu dosyay\'fd okuyabilir.\par
+\tab E\'f0er veritaban\'fdna direk bir ba\'f0lant\'fd istiyorsak, web mod\'fcl\'fc \'fczerine bir TSQLConnection bile\'feeni ekler, Driver (S\'fcr\'fcc\'fc) \'f6zelli\'f0ini MSSQL olarak atar, ve veritaban\'fdna ge\'e7erli bir ba\'f0lant\'fd kurmak i\'e7in HostName, Database, UserName ve Password alanlar\'fdna gerekli de\'f0erleri atar\'fdz. Login Prompt \'f6zelli\'f0ine False \'f6zelli\'f0ini atad\'fd\'f0\'fdm\'fdzdan emin olmal\'fd, ve Connected \'f6zelli\'f0ine True de\'f0erini atayarak ba\'fear\'fdl\'fd bir ba\'f0lant\'fd yap\'fdp yapmad\'fd\'f0\'fdm\'fdz\'fd kontrol etmeliyiz. Veritaban\'fd ile konu\'femak, ileti\'feim kurmak i\'e7in TSQLConnection bile\'feeninin d\'fd\'fe\'fdnda Kullan\'fdc\'fd tablosundaki Kullan\'fdc\'fd Ad\'fd ve \'deifre alan\'fdna sorgu yapmak i\'e7in bir de TSQLDataSet bile\'feeni kullanmal\'fdy\'fdz.\lang1033\f3\par
+ \lang1055\f1\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Lokal Veritaban\u305? Ba\u287?lant\u305?s\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab E\'f0er web mod\'fcl\'fc \'fczerine TSQLConnection ve TSQLDataSet bile\'feenlerini eklemek istemiyorsak, bunu dinamik olarak da olu\'feturabiliriz. \'d6zellikle sadece TSQLConnection bile\'feenine ihtiyac\'fdm\'fdz oldu\'f0u durumlarda (ba\'f0lant\'fdy\'fd do\'f0rulamak) bu temiz bir \'e7\'f6z\'fcmd\'fcr. \'d6zellikle SQLConnection parametre ayarlar\'fd bir .ini veya konfig\'fcrasyon dosyas\'fdnda okunabilir. (Okuyucu i\'e7in bir egzersiz olur.)\par
+\tab Her iki durumda da ger\'e7ekle\'fetirmemiz gereken sorgu c\'fcmlesinde Kullan\'fdc\'fd tablosundan UserID ve Role alanlar\'fdna SELECT uygulamas\'fdn\'fd WHERE kal\'fdb\'fd i\'e7erisinde Kullan\'fdc\'fd ve hashlenmi\'fe \'deifre bilgilerini parametre olarak ge\'e7erek kullanaca\'f0\'fdz. Unutmamak gerekir ki \'feifre bilgisini hashlememize gerek yoktur, zaten hashlenmi\'fe bir \'feekilde gelmektedir. (\'ddstemcinin yapmas\'fdna ihtiya\'e7 duyaca\'f0\'fd bir \'feey) \par
+\tab E\'f0er SELECT sorgu c\'fcmleci\'f0i bir kay\'fdt d\'f6nd\'fcr\'fcrse UserID de\'f0erini, o anki thread i\'e7in TDSSessionManager.GetThreadSession kullanarak ve PutData'y\'fd \'e7a\'f0\'fdr\'fdp UserID ad\'fdndaki bir alana UserId alan\'fdn\'fd atayarak, o anki oturumda saklayabiliriz. SELECT sorgu c\'fcmlesinden d\'f6nen Role alan\'fdn\'fd UserRoles (kullan\'fdc\'fd rolleri) kolleksiyonuna eklemek i\'e7in kullanabiliriz.\par
+\par
+\tab procedure TWebModule1.DSAuthenticationManager1UserAuthenticate( \par
+  \tab Sender: TObject; const Protocol, Context, User, Password: string; \par
+  \tab var valid: Boolean; UserRoles: TStrings); \par
+\tab var \par
+  \tab\tab SQLConnection: TSQLConnection; \par
+  \tab\tab SQLQuery: TSQLQuery; \par
+  \tab\tab Role: String; \par
+\tab begin \par
+  \tab\tab valid := LowerCase(Protocol) = 'https'; \par
+   \tab\tab if valid then \par
+  \tab\tab begin // validate User and Hashed password \par
+    \tab\tab\tab SQLConnection := TSQLConnection.Create(nil); \par
+    \tab\tab\tab try\par
+\tab\tab\tab\tab SQLConnection.LoginPrompt := False; \par
+      \tab\tab\tab\tab SQLConnection.DriverName := 'MSSQL'; \par
+      \tab\tab\tab\tab SQLConnection.Params.Clear; \par
+       \tab\tab\tab\tab // The following parameters can be read from a config file \par
+      \tab\tab\tab\tab SQLConnection.Params.Add('HostName=.'); \par
+      \tab\tab\tab\tab SQLConnection.Params.Add('Database=DIRT'); \par
+      \tab\tab\tab\tab SQLConnection.Params.Add('User_Name=sa'); \par
+      \tab\tab\tab\tab SQLConnection.Params.Add('Password=********'); \par
+       \tab\tab\tab\tab SQLQuery := TSQLQuery.Create(nil); \par
+      \tab\tab\tab\tab SQLQuery.SQLConnection := SQLConnection; \par
+      \tab\tab\tab\tab SQLQuery.CommandText := \par
+        \tab\tab\tab\tab 'SELECT UserID, Role FROM [User] WHERE ' + \par
+        \tab\tab\tab\tab ' (Name = :UserName) AND (PasswordHASH = :Password)';  \par
+      \tab\tab\tab\tab SQLQuery.ParamByName('UserName').AsString := User; \par
+      \tab\tab\tab\tab SQLQuery.ParamByName('Password').AsString := Password; \par
+      \tab\tab\tab\tab try \par
+        \tab\tab\tab\tab\tab SQLQuery.Open; \par
+        \tab\tab\tab\tab\tab if not SQLQuery.Eof then \par
+        \tab\tab\tab\tab\tab begin \par
+          \tab\tab\tab\tab\tab valid := True; \par
+          \tab\tab\tab\tab\tab TDSSessionManager.GetThreadSession.PutData('UserID', \par
+            \tab\tab\tab\tab\tab SQLQuery.Fields[0].AsString); \par
+          \tab\tab\tab\tab\tab Role := SQLQuery.Fields[1].AsString; \par
+          \tab\tab\tab\tab\tab if Role <> '' then \par
+            \tab\tab\tab\tab\tab\tab UserRoles.Add(Role) \par
+        \tab\tab\tab\tab\tab end \par
+        \tab\tab\tab\tab\tab else \par
+          \tab\tab\tab\tab\tab valid := False \par
+      \tab\tab\tab\tab finally \par
+        \tab\tab\tab\tab\tab SQLQuery.Close; \par
+        \tab\tab\tab\tab\tab SQLQuery.Free \par
+      \tab\tab\tab\tab end \par
+    \tab\tab\tab finally \par
+      \tab\tab\tab\tab SQLConnection.Connected := False; \par
+      \tab\tab\tab\tab SQLConnection.Free \par
+    \tab\tab\tab end \par
+  \tab\tab end \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki yukar\'fddaki kod par\'e7as\'fd bir kullan\'fdc\'fd i\'e7in sadece bir role izin vermektedir. Bunu data modele ek tablolar ekleyerek geni\'feletmek m\'fcmk\'fcn. (Rolleri UserRoles kolleksiyonu olarak tan\'fdmlayarak) veya Role alan\'fdndaki de\'f0erleri virg\'fclle ay\'fdrarak birden \'e7ok rol eklemek de m\'fcmk\'fcn. Bu iki durumu okuyucuya egzersiz olarak b\'fdrak\'fdyorum (Bunlar DataSnap XE Development Essentials ad\'fdndaki d\'f6k\'fcman\'fdmda ele al\'fdnm\'fd\'fet\'fdr)\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Yetkilendirme ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Yetkilendirme olay\'fdn\'fd ele almam\'fdz gerekir. DataSnap kullan\'fdc\'fd rollerine sunucu s\'fdn\'fdflar\'fd ve sunucu metodlar\'fd ile birlikte ba\'f0lanma imkan\'fd tan\'fdmaktad\'fdr. Yetkilendirme ile ba\'fea \'e7\'fdkmak i\'e7in DSAuthenticationManager bile\'feeninin OnUserAuthenticate olay tetikleyicisi kullan\'fdlabilir. Basit\'e7e yetkilendirmeyi ele alman\'fdn iyimser ve k\'f6t\'fcmser yakla\'fe\'fdm olmak \'fczere 2 farkl\'fd yolu vard\'fdr. \'ddyimse yakla\'fe\'fdm, a\'e7\'fdk\'e7a yasaklanmad\'fd\'f0\'fd taktirde herhangi bir i\'feleme izin verilmesi, k\'f6t\'fcmser yakla\'fe\'fdm da a\'e7\'fdk\'e7a izin verilmedi\'f0i taktirde herhangi bir i\'feleme izin verilmemesi anlam\'fdna gelmektedir. Kullan\'fdlacak en iyi y\'f6ntem, sizin geli\'fetirece\'f0iniz uygulaman\'fdn t\'fcr\'fcne ba\'f0l\'fdd\'fdr. Bu durumda (bu uygulama i\'e7in) g\'fcvenlik \'f6nemli oldu\'f0undan biz k\'f6t\'fcmser yakla\'fe\'fdm\'fd se\'e7ece\'f0iz. (Yetkisi olmayan \'feah\'fdslar\'fdn sorun raporlar\'fdn\'fdn veya yorumlar\'fdn detaylar\'fdn\'fd g\'f6rmesini veya d\'fczeltmesini istemiyoruz)\par
+\tab K\'fdsaca, OnUserAuthorize olay tetikleyicisinde varsay\'fdlan de\'f0er olan ge\'e7erli bilgisine True de\'f0erini atamak yerine False de\'f0erini atar\'fdz. Sonra Yetkilendirilmi\'fe Roller (Authorized Roles) koleksiyonuna bakarak bizim kullan\'fdc\'fd rol\'fcm\'fcz\'fcn bu koleksiyon i\'e7erisinde bulunup bulunmad\'fd\'f0\'fdn\'fd kontrol ederiz. \'ddlgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab if Assigned(AuthorizeEventObject.AuthorizedRoles) then \par
+  \tab\tab for UserRole in AuthorizeEventObject.UserRoles do \par
+    \tab\tab\tab if AuthorizeEventObject.AuthorizedRoles.IndexOf(UserRole) >= 0 \par
+    \tab\tab\tab\tab then valid := True; \tab\par
+\par
+\tab Bununla beraber istemci taraftaki DataSnap proxy s\'fdn\'fdflar\'fdn\'fdn \'fcretimi gibi herhangi bir Yetkilendirimi\'fe Rol'\'fcn a\'e7\'fdk olarak atanmad\'fd\'f0\'fd i\'felemler de bulunmaktad\'fdr. Bu fonksiyonellik, e\'f0er yukar\'fddaki kodu kullan\'fdrsak eri\'feilemez olur. Bu sebeple alternatif bir yakla\'fe\'fdm uygulamal\'fdy\'fdz. E\'f0er herhangi bir Yetkilendirilmi\'fe Rol a\'e7\'fdk\'e7a belirtilmemi\'fese, i\'feleme kullan\'fdc\'fd rol\'fc a\'e7\'fdk bir \'feekilde Reddedilmi\'fe Roller (Denied Roles) listesinde bulunmuyorsa izin verilebilir. (Uygulamada, genelde Yetkilendirilmi\'fe Roller bo\'fesa, Reddedilmi\'fe Roller de bo\'fe olmaktad\'fdr.)\par
+\tab OnUserAuthorize olay tetikleyicisinin yukar\'fddaki duruma g\'f6re g\'fcncellenmi\'fe hali a\'fea\'f0\'fdda bulunmaktad\'fdr.\par
+\par
+\tab procedure TWebModule1.DSAuthenticationManager1UserAuthorize(Sender: TObject; \par
+  \tab AuthorizeEventObject: TDSAuthorizeEventObject; var valid: Boolean); \par
+\tab var \par
+  \tab\tab UserRole: String; \par
+\tab begin \par
+  \tab\tab if Assigned(AuthorizeEventObject.AuthorizedRoles) then \par
+    \tab\tab\tab valid := False // assume NOT OK, unless explicitly allowed  !! \par
+  \tab\tab else valid := True; // no Authorized Roles? \par
+ \par
+  \tab\tab if not valid then \par
+    \tab\tab\tab if Assigned(AuthorizeEventObject.AuthorizedRoles) then \par
+      \tab\tab\tab\tab for UserRole in AuthorizeEventObject.UserRoles do \par
+\tab\tab\tab\tab\tab if AuthorizeEventObject.AuthorizedRoles.IndexOf(UserRole) >= 0 \par
+        \tab\tab\tab\tab\tab\tab then valid := True; \par
+ \par
+\tab\tab if valid then \par
+    \tab\tab\tab if Assigned(AuthorizeEventObject.DeniedRoles) then \par
+      \tab\tab\tab\tab for UserRole in AuthorizeEventObject.UserRoles do \par
+        \tab\tab\tab\tab\tab if AuthorizeEventObject.DeniedRoles.IndexOf(UserRole) >= 0 \par
+        \tab\tab\tab\tab\tab\tab then valid := False; \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki, yukar\'fddaki kod ayn\'fd zamanda bir kullan\'fdc\'fd rol\'fcn\'fcn hem Yetkilendirilmi\'fe Rollerde hem de Reddedilmi\'fe Rollerde bulunmas\'fd durumunu a\'e7\'fdk bir \'feekilde kontrol etmektedir. (Kullan\'fdc\'fdlar\'fdn baz\'fd sunucu metodlar\'fd i\'e7in reddedilece\'f0i durumlar olabilir.)\par
+\tab Yetkilendirmelerin role ba\'f0l\'fd olarak atanmas\'fd, sunucu metodlar\'fd seviyesinde yap\'fdlmas\'fd gereken bir i\'felemdir. Bir admin'in yeni kullan\'fdc\'fd ekleyebildi\'f0inden, bir y\'f6neticinin salt okunut bir y\'f6ntemle b\'fct\'fcn sorunlar\'fd g\'f6rebilece\'f0inden, bir test\'e7inin yeni sorunlar rapor edebilece\'f0inden ve hem test\'e7inin hem de geli\'fetiricinin sorunla ilgili olarak yorum ekleyebilece\'f0inden emin olmam\'fdz gerekir. (Sorunlar\'fd tekrar \'e7\'f6zmek i\'e7in \'e7al\'fd\'fet\'fdklar\'fdndan)\par
+ \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- \lang1055\f2\'dd\lang1033\f0 stemci \u304?\'e7in Sunucu Metodlar\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab DirtServerMethods unit dosyas\'fdna giderek, TDSServerModule s\'fdn\'fdf\'fdndan t\'fcretilen TServerMethods1 s\'fdn\'fdf\'fdn\'fd sunucu metodlar\'fdn\'fd tan\'fdmlamak ve yazmak i\'e7in geni\'feletebiliriz. Buraya ekleyece\'f0im bir ka\'e7 metod, istemci uygulamay\'fd, do\'f0ru se\'e7enek setlerine ve i\'felemlere izin verilip verilmeyece\'f0i konusunda desteklemek i\'e7indir. Kullan\'fdc\'fd rol\'fcn\'fc baz alarak, mesela bir kullan\'fdc\'fd b\'fct\'fcn sorunlar\'fd g\'f6rebilir, veya belirli sorunlar\'fd d\'fczenleyebilecektir (Kullan\'fdc\'fdya ba\'f0l\'fd olarak bir yolla veya \'f6b\'fcr\'fcyle)\par
+\tab Bu ama\'e7 i\'e7in GetCurrentUserID ve GetCurrentUserRoles ad\'fdnda 2 adet sunucu metodu geli\'fetirdim.\par
+\par
+\tab public \par
+    \tab\tab\{ Public declarations \} \par
+    \tab\tab function GetCurrentUserID: Integer; \par
+    \tab\tab function GetCurrentUserRoles: String; \par
+\par
+\tab GetCurrentUserID metodu, yeni bir sorun raporu eklemek i\'e7in (veya herhangi bir soruna yorum yazmak i\'e7in) bizim UserID (kullan\'fdc\'fd ID bilgisi) laz\'fdm olaca\'f0\'fd i\'e7in yararl\'fd olacakt\'fdr. GetCurrentUserRoles ise o anki kullan\'fdc\'fdn\'fdn sahip oldu\'f0u rolleri d\'f6nd\'fcrd\'fc\'f0\'fcnden, ve istemci tarafta bu fonksiyonelli\'f0i a\'e7abilece\'f0imizden bizim i\'e7in daha yararl\'fd bir metoddur.\par
+\tab GetCurrentUserRoles metodunun kodunda TDSSerssionManager.GetThreadSession taraf\'fdndan \'e7a\'f0r\'fdlan o anki oturumun, UserRoles.Text de\'f0erinin d\'f6nd\'fcr\'fcld\'fc\'f0\'fc bir sat\'fdr bulunmaktad\'fdr sadece. Kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab function TServerMethods1.GetCurrentUserRoles: String; \par
+\tab begin \par
+  \tab\tab Result := TDSSessionManager.GetThreadSession.UserRoles.Text; \par
+\tab end;\par
+\par
+\tab Unutmamak gerekir ki tek bir string i\'e7erisinde birden \'e7ok rol bulunursa UserRoles.Text alan\'fd 0 de\'f0erini d\'f6nd\'fcr\'fcr, e\'f0er birden \'e7ok rol varsa CRLF (sat\'fdr sonu) \'e7iftleriyle ayr\'fdlm\'fd\'fe olmal\'fdd\'fdr.\par
+\tab GetCurrentUserID metodunun kodu ilkine g\'f6re biraz daha karma\'fe\'fdkt\'fdr. Ayn\'fd oturumu kullanarak GetData metodunu \'e7a\'f0\'fdrarak 'UserID' alan\'fdn\'fdn de\'f0erini geri d\'f6n\'fcrebiliriz. (Kullan\'fdc\'fdn\'fdn ba\'fear\'fdl\'fd bir ba\'f0lant\'fd yapt\'fd\'f0\'fdn\'fd hesaba kat\'fdyoruz) E\'f0er UserID alan\'fd bulunmuyor veya ge\'e7erli olamyan bir de\'f0eri varsa, de\'f0er olarak -1 de\'f0erini d\'f6nd\'fcr\'fcr\'fcz.\par
+\par
+\tab function TServerMethods1.GetCurrentUserID: Integer; \par
+\tab begin \par
+  \tab\tab Result := StrToIntDef( \par
+    \tab\tab TDSSessionManager.GetThreadSession.GetData('UserID'), -1); \par
+\tab end; \par
+\par
+\tab\'deu anda UserID de\'f0erini kullanmayaca\'f0\'fdz ama bu bizi ilgin\'e7 bir ba\'fel\'fd\'f0a g\'f6t\'fcrecek. Kullan\'fdc\'fdlar\'fdn listesini elde etmek ve/veya yeni kullan\'fdc\'fdlar eklemek.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Kullan\u305?c\u305? Adlar\u305?n\u305? Almak \lang1055\f2\'dd\lang1033\f0\'e7in Sunucu Metodu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Yeni bir sorun eklenece\'f0i ve \'f6zellikle bu sorunu bir kullan\'fdc\'fdya atama durumu s\'f6zkonusu oldu\'f0u zaman, istemci uygulaman\'fdn kullan\'fdc\'fd adlar\'fdn\'fdn listesini (ve UserID de\'f0erlerini) g\'f6sterebiliyor olmas\'fd \'e7ok faydal\'fd olacakt\'fdr. Bu ama\'e7 i\'e7in TServerMethods1 s\'fdn\'fdf\'fdna kullan\'fdc\'fd adlar\'fd ve UserID de\'f0erlerinden olu\'fean bir dataset d\'f6nd\'fcren GetUserNames ad\'fdnda 3. bir sunucu metodu ekleyece\'f0im.\par
+\tab Bu sunucu metodu sadece Tester (test\'e7i) ve Developer (geli\'fetirici) rol\'fcne sahip olan kullan\'fdc\'fdlar taraf\'fdndan \'e7a\'f0r\'fdlabilecek, \'e7\'fcnk\'fc sadece bu kullan\'fdc\'fdlar yeni sorun rapor edip var olan sorunlarla ilgili olarak yorum yazma yetkisine sahiptirler. Sonu\'e7 olarak bu metodun tan\'fdmlamas\'fd yetkilendirilmi\'fe rolleri a\'e7\'fdk bir \'feekilde listeleyen TRoleAuth ad\'fdnda bir \'f6zellikle dekore edilerek a\'fea\'f0\'fddaki gibi yaz\'fdl\'fdr.\par
+\par
+\tab [TRoleAuth('Tester,Developer')] \par
+    \tab function GetUserNames: TDataSet; \par
+\par
+\tab TRoleAuth \'f6zelli\'f0ine hangi sunucu metodunun a\'e7\'fdk bir \'feekilde yasakland\'fd\'f0\'fd rolleri belirten ikinci bir arg\'fcman ekleyebiliriz, Bununla beraber k\'f6t\'fcmser yakla\'fe\'fdm\'fd benimsedi\'f0imizden b\'f6yle bir \'feeye gerek yoktur. Ve TRoleAuth \'f6zelli\'f0inde sadece bu sunucu metodunu uygulamaya a\'e7\'fdk bir \'feekilde izin verilen rolleri kullan\'fdc\'fdlar\'fd ile birlikte tan\'fdmlayaca\'f0\'fdz. \par
+\tab Bu sunucu metodunun kodlamas\'fd i\'e7in sadece TSQLConnection bile\'feenine de\'f0il, ayn\'fd zamanda sqlUser ad\'fdnda bir TSQLDataSet bile\'feenine de ihtiyac\'fdm\'fdz var. TSQLDataSet bile\'feeni, TSQLConnection bile\'feenine ba\'f0lanacak kendi SQLConnection \'f6zelli\'f0ine sahiptir ve bu bile\'feenin CommandType \'f6zelli\'f0ini de Dbx.SQL olarak atamal\'fdy\'fdz. CommandText \'f6zelli\'f0i Kullan\'fdc\'fd tablosundan kullan\'fdc\'fd ad\'fd ve UserID alanlar\'fdn\'fd \'e7ekecek a\'fea\'f0\'fddaki SELECT c\'fcmlesine sahip olmal\'fdd\'fdr.\par
+\tab\par
+\tab SELECT UserID, Name FROM [User] \par
+\par
+\tab Bu belirtilen SELECT sorgu c\'fcmleci\'f0i ile birlikte GetUserNames sunucu metodunun kodlamas\'fdna ba\'felayabiliriz. Bu a\'feamada sqlUser tablosunu a\'e7mak ve ilk kayda gitmek (bu durumda zaten a\'e7\'fdkt\'fdr ama ilk kayda y\'f6nlenmemi\'fetir) i\'felemlerini yapmak gerekir.\par
+\par
+\tab function TServerMethods1.GetUserNames: TDataSet; \par
+\tab begin \par
+  \tab\tab try \par
+    \tab\tab\tab sqlUser.Open; \par
+    \tab\tab\tab sqlUser.First; \par
+    \tab\tab\tab Result := sqlUser \par
+  \tab\tab except \par
+    \tab\tab\tab on E: Exception do \par
+    \tab\tab\tab begin \par
+      \tab\tab\tab\tab Result := nil; \par
+      \tab\tab\tab\tab sqlUser.Close; \par
+      \tab\tab\tab\tab SQLConnection1.Close \par
+    \tab\tab\tab end \par
+  \tab\tab end; \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki biz TSQLDataSet bile\'feenini a\'e7t\'fd\'f0\'fdm\'fdz i\'e7in TSQLConnection bile\'feenini a\'e7mam\'fdza gerek bulunmamaktad\'fdr. Metod bitmeden \'f6nce sqlUser'in kapan\'fdp kapanmad\'fd\'f0\'fdndan emin olmam\'fdza gerek yoktur \'e7\'fcnk\'fc a\'e7\'fdlan TSQLDataSet bu sunucu metodun sonucuna metod olarak ge\'e7ilmelidir. \par
+\tab Var olan kullan\'fdc\'fdlar\'fdn listesini \'e7\'fdkarmak g\'fczeldir, ama ba\'felang\'fd\'e7ta kullan\'fdc\'fd olmayacakt\'fdr. \'d6zelle\'femi\'fe bir \'feifre ve rolle veritaban\'fdna yeni bir kullan\'fdc\'fd ekleyecek sunucu metodunu yazman\'fdn zaman\'fd geldi art\'fdk.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Yeni Kullan\u305?c\u305? Eklemek \lang1055\f2\'dd\lang1033\f0\'e7in Sunucu Metodu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Sadece Admin rol\'fcndeki bir kullan\'fdc\'fd a\'e7\'fdk bir \'feekilde yeni bir kullan\'fdc\'fd ekleyebilir. TRoleAuth \'f6zelli\'f0ini sadece Admin rol\'fcndeki kullan\'fdc\'fdn\'fdn metodu \'e7a\'f0\'fdrmas\'fdna izin verilecek \'feekilde tekrar kullan\'fdm\'fd ile 4. sunucu metodumuz olan AddUser metodunu TServerMethods1 s\'fdn\'fdf\'fdna ekleriz. \par
+\par
+\tab [TRoleAuth('Admin')] \par
+    \tab procedure AddUser(const User,Password,Role,Email: String); \par
+\par
+\tab AddUser metodu i\'e7in gerekli parametreler, yeni kullan\'fdc\'fd ad\'fd, \'feifre (kriptolanmam\'fd\'fe hali, AddUser sunucu metodu taraf\'fdndan otomatik olarak hashlenecektir, bununla beraber bu durumu de\'f0i\'fetirip hashlenmi\'fe halini direk parametre olarak g\'f6nderebilirsiniz), rol ve e-posta adresidir.\par
+\tab AddUser metodu DIRT veritaban\'fdna ba\'f0lanacak bir TSQLConnection bile\'feenine ihtiya\'e7 duyacakt\'fdr. Bu bile\'feen Sunucu Metodlar\'fd unit dosyas\'fdnda bir kere bulundu\'f0u i\'e7in AddUser sunucu metodunun kodu a\'fea\'f0\'fddaki gibi olur.\par
+\par
+\tab procedure TServerMethods1.AddUser(const User, Password, Role, Email: String); \par
+\tab var \par
+  \tab\tab SQLQuery: TSQLQuery; \par
+\tab begin \par
+  \tab\tab SQLQuery := TSQLQuery.Create(nil); \par
+  \tab\tab SQLQuery.SQLConnection := SQLConnection1; \par
+  \tab\tab SQLQuery.CommandText := 'INSERT INTO [User] ' + \par
+   \tab\tab ' (Name, PasswordHASH, Role, Email) ' +  \par
+   \tab\tab ' VALUES (:Name, :PasswordHASH, :Role, :Email)'; \par
+  \tab\tab SQLQuery.ParamByName('Name').AsString := User; \par
+  \tab\tab SQLQuery.ParamByName('PasswordHASH').AsString := HashMD5(Password); \par
+  \tab\tab SQLQuery.ParamByName('Role').AsString := Role; \par
+  \tab\tab SQLQuery.ParamByName('Email').AsString := Email; \par
+  \tab\tab SQLConnection1.Open; \par
+  \tab\tab try \par
+    \tab\tab\tab SQLQuery.ExecSQL; \par
+  \tab\tab finally \par
+    \tab\tab\tab SQLConnection1.Close; \par
+  \tab\tab end; \par
+\tab end; \par
+\par
+\tab HashMD5 metodu TServerMethods1 s\'fdn\'fdf\'fd i\'e7erisinde tan\'fdmlanan private bir metoddur ve kodlamas\'fd Indy IdHashMessageDigest unit'ini TIdHashMessageDigest5 t\'fcr\'fc ile birlikte kullanarak \'feu \'feekilde yaz\'fdlabilir.\par
+\par
+\tab function TServerMethods1.HashMD5(const Str: String): String; \par
+\tab var \par
+  \tab\tab MD5: TIdHashMessageDigest5; \par
+\tab begin \par
+  \tab\tab MD5 := TIdHashMessageDigest5.Create; \par
+  \tab\tab try \par
+    \tab\tab\tab Result := LowerCase(MD5.HashStringAsHex(Str, TEncoding.UTF8)) \par
+  \tab\tab finally \par
+    \tab\tab\tab MD5.Free \par
+  \tab\tab end \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki e\'f0er HashMD5 metodunu istemci tarafta g\'f6sterilecek bir sunucu metod olarak tan\'fdmlamak istemiyorsak, mutlaka private veya protected olarak tan\'fdmlamam\'fdz gerekmektedir. \par
+\tab En sonunda unutmamak gerekir ki di\'f0er kullan\'fdc\'fdlar\'fd ekleyebilmek i\'e7in \'f6ncelike Admin rol\'fcnde bir kullan\'fdc\'fd eklemek gerekir. Ve bu Admin rol\'fcndeki kullan\'fdc\'fdy\'fd elle eklemek gerekir. Bu yap\'fdlmad\'fd\'f0\'fd zaman en ba\'feta ba\'f0lan\'fdp kullan\'fdc\'fd ekleyememekle ilgili olarak bir yumurta ve tavuk problemi ile kar\'fe\'fdla\'fe\'fdr\'fdz. (Yumurta m\'fd tavuktan, tavuk mu yumurtadan)\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- B\'fct\'fcn Sorunlar\u305? Almak \u305?\'e7in Sunucu Metodu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab B\'fct\'fcn bu idareden sonra, art\'fdk biraz ger\'e7ek fonksiyonel i\'feler yapman\'fdn zaman\'fd geldi. Bu b\'f6l\'fcmde, raporlanan sorunlar\'fdn bir listesinin g\'f6sterilmesini i\'feleyece\'f0iz. Durumdaki bir filtre ile, sonu\'e7lar\'fd ile birlikte MinStatus ve MaxStatus de\'f0i\'fekenleri aras\'fdnda kalan durumlar\'fd bir dataset olarak geri \'e7ekebilir, ve bunu istemci taraf\'fdnda herhangi bir grid bile\'feeni veya di\'f0er data ile ilgili yerlere ba\'f0layabiliriz.\par
+\tab 5. sunucu metodumuz GetIssues ad\'fdnda bir fonksiyondur ve sadece rol\'fc Manager (Y\'f6netici) olan kullan\'fdc\'fdlar taraf\'fdndan eri\'feilebilmelidir. \'ddlgili kod a\'fea\'f0\'fddaki gibidir.\par
+\par
+\tab [TRoleAuth('Manager')] \par
+    \tab // Return all issues (read-only) between MinStatus..MaxStatus \par
+    \tab function GetIssues(MinStatus,MaxStatus: Integer): TDataSet; \par
+\par
+\tab Bu sunucu metodunun kodlanmas\'fd i\'e7in TSQLConnection d\'fd\'fe\'fdnda sqlReports ad\'fdnda bir de TSQLDataSet bile\'feenine de ihtiyac\'fdm\'fdz bulunmaktad\'fdr.\par
+\tab TSQLDataSet bile\'feeninin kendi SQLConnection \'f6zelli\'f0i, TSQLConnection de\'f0erini al\'fdr, CommandType \'f6zelli\'f0ini de Dbx.SQL olarak atar\'fdz. CommandText \'f6zelli\'f0i ise Rapor tablosundan Where deyimi ile Maksimum ve Minimum de\'f0erler aras\'fdndaki b\'fct\'fcn kay\'fdtlar\'fd getirecek Select sorgu c\'fcmleci\'f0i ile atan\'fdr. \'d6rnek c\'fcmlecik a\'fea\'f0\'fddaki gibidir.\par
+\par
+\tab SELECT "ReportID", "Project", "Version", "Module", "IssueType",  \par
+  \tab "Priority", "Status", "ReportDate", "ReporterID", "AssignedTo", \par
+  \tab "Summary", "Report"  \par
+  \tab FROM "Report" \par
+ \tab WHERE Status >= :MinStatus AND Status <= :MaxStatus \par
+ \tab ORDER BY Status \par
+\par
+\tab Bu basit sorgu c\'fcmleci\'f0inin kullan\'fdm\'fdndaki dezavantaj, istemci tarafta baz\'fd alanlar\'fdn \'e7evrilebilece\'f0indendir. IssueType (Sorun T\'fcr\'fc), Priority (\'d6ncelik), Status (Durum) gibi alanlarda herhangi b\'fcy\'fck bir problem olmasa da ReporterID ve AssignedTo alanlar\'fdnda UserID de\'f0erlerinden elimizde bir kullan\'fdc\'fd listesi olabilir. Bu durumda GetUserNames metodunu \'e7a\'f0\'fdrarak kim oldu\'f0unu \'f6\'f0renebiliriz ama bunu da sadece Test\'e7i ve Geli\'fetirici rol\'fcndeki bir kullan\'fdc\'fd \'e7a\'f0\'fdrabilir.\par
+\tab Sorgu c\'fcmleci\'f0i her ne kadar bize salt okunur bir liste verecek olsa da biz bunu Kullan\'fdc\'fd tablosu ile birle\'fetirerek ve ReporterID ve AssignedTo alanlar\'fdna Kullan\'fdc\'fd tablosundan ilgili kullan\'fdc\'fdn\'fdn ad\'fdn\'fd yerle\'fetirerek \'feu \'feekilde d\'fczenleyebiliriz.\par
+\par
+\tab SELECT "ReportID", "Project", "Version", "Module", "IssueType",  \par
+  \tab "Priority", "Status", "ReportDate",  \par
+   \tab UReporterID.Name AS "Reporter", UAssignedTO.Name AS Assigned, \par
+  \tab "Summary", "Report" \par
+\tab FROM "Report" \par
+  \tab LEFT OUTER JOIN [User] UReporterID ON UReporterID.UserID = ReporterID \par
+  \tab LEFT OUTER JOIN [User] UAssignedTO ON UAssignedTO.UserID = AssignedTO \par
+ \tab WHERE Status >= :MinStatus AND Status <= :MaxStatus \par
+ \tab ORDER BY Status \par
+\par
+\tab Unutmamak gerekir ki LEFT OUTER JOIN deyimini kulland\'fdm \'e7\'fcnk\'fc, Kullan\'fdc\'fd tablosunda AssignedTo gibi bir alana gereksinim duyulmamaktad\'fdr. (Bu NULL de\'f0er olabilir, yani bir sorun herhangi bir kullan\'fdc\'fdya atanmam\'fd\'fe olabilir. Burada normal bir LEFT JOIN deyimi herhangi bir sonu\'e7 d\'f6nd\'fcrmez.)\par
+\tab Bu TSQLDataSet ile tamsay\'fd olan MinStatus ve MaxStatus de\'f0i\'fekenlerini, sorgu c\'fcmlesi i\'e7erisindeki ilgili alanlara parametre olarak g\'f6ndererek GetIssues sunucu metodunu a\'fea\'f0\'fddaki gibi yazabiliriz.\par
+\par
+\tab function TServerMethods1.GetIssues(MinStatus,MaxStatus: Integer): TDataSet; \par
+\tab begin \par
+  \tab\tab try \par
+    \tab\tab\tab SQLConnection1.Open; \par
+    \tab\tab\tab sqlReports.Close; \par
+    \tab\tab\tab sqlReports.ParamByName('MinStatus').Value := MinStatus; \par
+    \tab\tab\tab sqlReports.ParamByName('MaxStatus').Value := MaxStatus; \par
+    \tab\tab\tab sqlReports.Open; \par
+    \tab\tab\tab Result := sqlReports \par
+  \tab\tab except \par
+    \tab\tab\tab on E: Exception do \par
+    \tab\tab\tab begin \par
+      \tab\tab\tab\tab Result := nil; \par
+      \tab\tab\tab\tab sqlReports.Close; \par
+      \tab\tab\tab\tab SQLConnection1.Close \par
+    \tab\tab\tab end \par
+  \tab\tab end; \par
+\tab end;\par
+\par
+\tab Unutmamak gerekir ki, sqlReports nesnesini kapatmamal\'fdy\'fdz ama TSQLDataSet'in fonksiyon i\'felendi\'f0i s\'fcrece a\'e7\'fdk kalmas\'fdna izin vermemiz gerekir. \par
+\tab\par
+ \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Yeni Sorun Raporlama \u304?\'e7in Sunucu Metodu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Manager (Y\'f6netici) rol\'fcndeki bir kullan\'fdc\'fd, b\'fct\'fcn raporlanm\'fd\'fe sorunlar\'fdn salt okunur bir ku\'febak\'fd\'fe\'fdn\'fd g\'f6rebilmeli ve Tester (Test\'e7i) rol\'fcndeki bir kullan\'fdc\'fd da yeni sorunlar ekleyebilmelidir. Bunun i\'e7in alttaki tan\'fdt\'fdmda belirtilen 6. sunucu metodumuz olan ReportNewIssue metoduna ihtiyac\'fdm\'fdz vard\'fdr.\par
+\par
+\tab [TRoleAuth('Tester'\}] \par
+    \tab function ReportNewIssue(Project, Version, Module: String; \par
+      \tab IssueType, Priority: Integer; // Status = 1 \par
+      \tab Summary, Report: String; \par
+      \tab AssignedTo: Integer = -1): Boolean; \par
+\par
+\tab Unutmamak gerekir ki, Rapor tablosunun ReportID (kimlik gibi, otomatik artan de\'f0er), ReporterID ve Status (Durum) alanlar\'fd haricinde b\'fct\'fcn alanlar\'fdn\'fd metoda parametre olarak g\'f6nderdik. ReportedID alan\'fd, sunucuda loglanan UserID alan\'fdndan otomatik olarak al\'fdnabilir ve benzer \'feekilde Status alan\'fd da otomatik olarak "reported" "raporland\'fd" anlam\'fdna gelen 1 de\'f0erini alabilir. Bu de\'f0er raporlanan sorunlar\'fdn daha hen\'fcz bir kullan\'fdc\'fdya atanmad\'fd\'f0\'fd anlam\'fdna gelmektedir. AssignedTo alan\'fdndaki de\'f0ere g\'f6re yaz\'fdlacak sorgu c\'fcmlelerinde de\'f0i\'femeler olabilir. (AssignedTo alan\'fd ve parametresi ile birlikte yaz\'fdlabilir veya yaz\'fdlmayabilir)\par
+\tab ReportNewIssue metodunun kaynak kodu a\'fea\'f0\'fddaki gibi olur.\par
+\par
+\tab function TServerMethods1.ReportNewIssue(Project, Version, Module: String; \par
+  \tab IssueType, Priority: Integer; // Status = 1 \par
+  \tab Summary, Report: String; \par
+  \tab AssignedTo: Integer = -1): Boolean; \par
+\tab var \par
+  \tab\tab InsertSQL: TSQLQuery; \par
+\tab begin \par
+  \tab\tab Result := False; \par
+  \tab\tab InsertSQL := TSQLQuery.Create(nil); \par
+  \tab\tab try \par
+    \tab\tab\tab InsertSQL.SQLConnection := SQLConnection1; \par
+    \tab\tab\tab if AssignedTo >= 0 then \par
+      \tab\tab\tab\tab InsertSQL.CommandText :=  'INSERT INTO [Report] ([Project], ' + \par
+        \tab\tab\tab\tab '  [Version],[Module],[IssueType],[Priority],[Status], ' + \par
+        \tab\tab\tab\tab '  [ReportDate],[ReporterID],[AssignedTo],[Summary],[Report]) ' + \par
+        \tab\tab\tab\tab '  VALUES (:Project,:Version,:Module,: IssueType,:Priority, '  + \par
+        \tab\tab\tab\tab '  1, @Date, :ReporterID,:AssignedTo,:Summary,:Report) ' \par
+    \tab\tab\tab else  // No AssignedTo  \par
+      \tab\tab\tab\tab InsertSQL.CommandText :=  'INSERT INTO [Report] ([Project], ' + \par
+        \tab\tab\tab\tab '  [Version],[Module],[IssueType],[Priority],[Status], ' + \par
+        \tab\tab\tab\tab '  [ReportDate],[ReporterID],[Summary],[Report]) ' + \par
+        \tab\tab\tab\tab ' VALUES (:Project,:Version,:Module,:IssueType,:Priority, '  + \par
+        \tab\tab\tab\tab '  1, @Date, :ReporterID,:Summary,:Report) '; \par
+ \par
+    \tab\tab\tab try \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Project').AsString := Project; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Version').AsString := Version; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Module').AsString := Module; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('IssueType').AsInteger := issueType; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Priority').AsInteger := Priority; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('ReporterID').AsInteger := \par
+      \tab\tab\tab\tab StrToIntDef(TDSSessionManager.GetThreadSession.GetData('UserID'),0); \par
+      \tab\tab\tab\tab if AssignedTo >= 0 then \par
+        \tab\tab\tab\tab\tab InsertSQL.ParamByName('AssignedTo').AsInteger := AssignedTo; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Summary').AsString := Summary; \par
+      \tab\tab\tab\tab InsertSQL.ParamByName('Report').AsString := Report; \par
+      \tab\tab\tab\tab Result := InsertSQL.ExecSQL = 1 \par
+    \tab\tab\tab except \par
+      \tab\tab\tab\tab on E: Exception do \par
+        \tab\tab\tab\tab\tab CodeSite.SendException(E) \par
+\tab  \tab\tab end \par
+  \tab\tab finally \par
+    \tab\tab\tab InsertSQL.Free; \par
+    \tab\tab\tab SQLConnection1.Close \par
+  \tab\tab end; \par
+\tab end; \par
+\par
+\tab Bu fonksiyon yeni bir kay\'fdt do\'f0ru bir \'feekilde eklendi\'f0i zaman True de\'f0eri d\'f6nd\'fcrecektir. Unutmamak gerekir ki burada hata yakalama \'feimdilik sadece istisnai durumu CodeSite'ye g\'f6nderme olarak yap\'fdlm\'fd\'fet\'fdr. \'ddstisnai durumu tekrar  y\'fckseltmek veya kendi hata tutma kontrol\'fcn\'fcz\'fc yazmak konusunda serbestsiniz.\par
+\tab Bu noktada en az 6 adet sunucu metodu ile bilgi alma (GetCurrentUserID, GetCurrentUserRoles, GetUserNames, GetIssues), yeni kullan\'fdc\'fd ekleme (AddUsers) veya yeni rapor ekleme (ReportNewIssue) gibi i\'felemleri yapabilmekteyiz. GetUserNames ve GetIssues metodlar\'fd dataset d\'f6nd\'fcr\'fcr ama bu dataset'ler de salt okunur olup \'fczerinde herhangi bir de\'f0i\'feiklik yap\'fdlamaz.\par
+\tab E\'f0er Developer (Geli\'fetirici) rol\'fcndeki kullan\'fdc\'fdlara raporlar\'fd almak ve yorum yazmak iznini vereceksek, o zaman sunucu mod\'fcl\'fcne \'feu anda sunucu metodlar\'fdn\'fdn sunduklar\'fdn\'fdn \'f6tesinde fonksiyonellik eklememiz gerekecektir.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Veriyi D\u305?\'baar\u305? Aktarmak - A\'e7\u305?k Sorunlar ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab E\'f0er bir geli\'fetiriciye raporlanm\'fd\'fe sorunlar\'fd sadece g\'f6stermek de\'f0il ayn\'fd zamanda d\'fczelttirmek istiyorsak, veri \'fczerinde de\'f0i\'feiklik yapabilecek (ekleme, g\'fcncelleme veya silme) ve bu de\'f0i\'feiklikleri sunucuya g\'f6nderecek, istemci taraf\'fdndan kullan\'fdlabilecek bir TDataSetProvider bile\'feenini d\'fd\'fear\'fdya aktarmam\'fdz gerekmektedir.\par
+\tab Bir sorun raporu \'fczerinde \'e7al\'fd\'fean geli\'fetirici, sadece ilk sorun raporunu g\'f6rmemeli, ayn\'fd zamanda belirlenen sorun hakk\'fdnda yaz\'fdlm\'fd\'fe b\'fct\'fcn yorumlar\'fd da g\'f6rebilmelidir. Sonu\'e7 olarak TDataSetProvider sadece Raporlar tablosundaki kay\'fdtlar\'fd d\'fd\'fear\'fdya aktarmayacak, ayn\'fd zamanda master-detay ili\'fekisi i\'e7erisinde Yorumlar (Comments) tablosundaki kay\'fdtlar\'fd da d\'fd\'fear\'fdya aktaracakt\'fdr.\par
+\tab Bunu ger\'e7ekle\'fetirebilmek i\'e7in sqlReportUser ve sqlComments ad\'fdnda 2 adet TSQLDataSet ve dsReportUser ad\'fdnda bir TDataSource bile\'feeni eklememiz gerekir. dsReportUser'in DataSet \'f6zelli\'f0i sqlReportUser'\'fd i\'fearet edecek ve sqlComment bile\'feeninden d\'f6necek DataSource olarak kullan\'fdlacakt\'fdr. \par
+\tab En sonunda dspReportUserWithComments ad\'fdnda bir TDataSetProvider bile\'feeni eklenecek ve DataSet \'f6zelli\'f0ine de master olan sqlReportUser dataset'i atanacakt\'fdr.\par
+\tab\'ddki TSQLDataSet bile\'feeninin SQLConnection \'f6zellikleri de TSQLConnection bile\'feenini g\'f6stermelidir do\'f0al olarak. sqlReportUser bile\'feeninin SQL \'f6zelli\'f0i de a\'fea\'f0\'fdda belirtildi\'f0i gibi Raporlar tablosundan girilen parametreler olan minimum ve maksimum de\'f0erler aras\'fdndaki kay\'fdtlardan ReporterID ve AssignedTo alanlar\'fd o anki Kullan\'fdc\'fdya e\'feit olan kay\'fdtlar\'fd getirecektir.\par
+\tab\par
+\tab SELECT "ReportID", "Project", "Version", "Module", "IssueType",  \par
+  \tab "Priority", "Status", "ReportDate", "ReporterID", "AssignedTo",  \par
+  \tab "Summary", "Report"  \par
+\tab FROM "Report"  \par
+\tab WHERE (Status >= :MinStatus) AND (Status <= :MaxStatus) \par
+  \tab AND ((AssignedTo = :AssignedTo) OR (ReporterID = :ReporterID)) \par
+\par
+\tab Unutmamak gerekir ki o anki kullan\'fdc\'fdn\'fdn raporlad\'fd\'f0\'fd sorunlar ve o kullan\'fdc\'fdya atanan raporlar beraber d\'f6necektir bu sorgu sonucu. Ayn\'fd kullan\'fdc\'fdya ait olan dikkate al\'fdnan sorunlar da olabilir bunlar. \par
+\tab Bu sorgu c\'fcmleci\'f0i bize 12 adet alan d\'f6nd\'fcr\'fcr. sqlReportUser bile\'feenine \'e7ift t\'fdklayarak Fields Edit\'f6r (Alan Edit\'f6r\'fc) \'fc ba\'felat\'fdr\'fdz ve bu edit\'f6re sa\'f0 t\'fdklayarak "Add all fields" "B\'fct\'fcn alanlar\'fd ekle" se\'e7ene\'f0ini se\'e7eriz. Bu bize sorgunun olu\'feturaca\'f0\'fd 12 adet alan\'fd \'fcretir.\par
+\tab Buradaki alanlardan baz\'fdlar\'fd \'f6zel davran\'fd\'fe istemektedir. ReportID alan\'fd, otomatik olarak artan bir alan oldu\'f0undan buna \'f6rnek olarak verilebilir. Bu demektir ki bu alan\'fdn ProviderFlags \'f6zelli\'f0ini d\'fczeltmemiz gerekir. pfInUpdate alt \'f6zelli\'f0ine False de\'f0eri atamal\'fdy\'fdz (bu birincil anahtara herhangi bir ilk de\'f0er atamas\'fd yapamay\'fdz, ayr\'fdca herhangi bir \'feekilde g\'fcncelleme de yapamay\'fdz.), ama pfInKey alt \'f6zelli\'f0ine True de\'f0erini atamal\'fdy\'fdz. pfInWhere zaten True de\'f0erini alm\'fd\'fe olmal\'fdd\'fdr.\par
+\tab Unutmamak gerekir ki sorgu c\'fcmlesinde 4 adet parametre (MinStatus, MaxStatus, AssignedTo ve ReporterID) bulunur. Bunlardan ikisi istemci taraf\'fdndan sa\'f0lan\'fdr ve di\'f0er ikisi sunucu taraf\'fdndan otomatik olarak doldurulur (ve sonu\'e7 olarak listeden kald\'fdr\'fdlmas\'fd gerekir.)\par
+\tab MinStatus ve MaxStatus girdi parametreleri ftInteger t\'fcr\'fcnde olmal\'fd ve bu \'feekilde saklanmal\'fdd\'fdr. AssignedTo ve ReporterID parametreleri ise listeden kald\'fdr\'fdlmal\'fd ve istemci tarafta g\'f6sterilmemelidir. (sunucu taraf\'fdnda o anki kullan\'fdc\'fdn\'fdn oturumundaki UserID alan\'fdna ba\'f0l\'fd olarak doldurulmal\'fdd\'fdr.)\par
+\tab Detaya bakacak olursak, sqlComments dataset bile\'feeni, DataSource \'f6zelli\'f0inde dsReportUser'\'fd b\'f6ylece master (ana,ata) sqlReportUser'\'fd i\'fearet eder. Yorumlarla ilgili olarak yaz\'fdlacak sorgu c\'fcmlesinde ReportID ad\'fdnda bir parametre kullan\'fdlarak Yorumlar\'fd (Comments) Raporlara (Reports) ba\'f0layarak a\'fea\'f0\'fddaki gibi yaz\'fdl\'fdr.\par
+\par
+\tab SELECT CommentID, ReportID, UserID, CommentDate, Comment  \par
+  \tab FROM Comment \par
+ \tab WHERE (ReportID = :ReportID)  \par
+\par
+\tab\'deimdi de birincil anahtar (Primary Key) olan CommentID alan\'fdn\'fdn PropertyFlags \'f6zelli\'f0ini d\'fczenlemek gerekecek. Bu y\'fczden sqlComments bile\'feenine \'e7ift t\'fdklarayak \'e7\'fdkan Alan Edit\'f6r\'fcne sa\'f0 t\'fdklayarak daha \'f6nce de yapt\'fd\'f0\'fdm\'fdz gibi "Add all fields" se\'e7ene\'f0ini se\'e7eriz. \par
+\tab CommentID alan\'fdn\'fd se\'e7eriz, Object Inspector i\'e7erisinde \'e7\'fdkan PropertyFlags a\'f0ac\'fdn\'fd geni\'feletiriz. pfInUpdate alt \'f6zelli\'f0ine False, pfInKey alt \'f6zelli\'f0ine True (pfInWhere zaten True olmal\'fd) de\'f0erlerini atar\'fdz. Bu \'feekilde CommentID alan\'fdn\'fdn herhangi bir \'feekilde sunucuya atama ama\'e7l\'fd g\'f6nderilemeyece\'f0inden ve bir kayda konumlanabilmek i\'e7in herhangi bir sorgu c\'fcmlesinden Where deyimi i\'e7erisinde kullan\'fdlabilece\'f0inden emin oluruz.\par
+\tab sqlComments dataset'i de ana sqlReportUser dataset'ine ba\'f0land\'fd\'f0\'fdndan TDataSetProvider ikisini de i\'e7-i\'e7e \'e7a\'f0r\'fdlm\'fd\'fe datasetler olarak d\'fd\'fear\'fd aktaracakt\'fdr. (Raporu master olarak, yorumu da i\'e7ine yuvalanm\'fd\'fe detay dataset olarak.) Bunu istemci uygulamada daha detayl\'fd olarak g\'f6rece\'f0iz.\par
+\tab dspReportUserWithComments bile\'feeninde de\'f0i\'fetirilmek isteyebilece\'f0iniz bir de\'f0er daha bulunur, UpdateMode de\'f0eri. Varsay\'fdlan olarak bu \'f6zellik upWhereAll de\'f0erini al\'fdr. Bu demektir ki UPDATE ve DELETE sorgu c\'fcmleleri i\'e7in, do\'f0ru kayda ula\'femak i\'e7in b\'fct\'fcn alanlar WHERE deyimi i\'e7erisinde yer almal\'fdd\'fdr. (Blob alanlar\'fd istisna olarak tutuyoruz) Bu durum, e\'f0er tablonun birincil bir anahtar\'fd yoksa ihtiya\'e7 duyulan bir \'feeydir. Bununla beraber, e\'f0er tablomuzda bir birincil anahtar\'fdm\'fdz varsa, bu \'f6zelli\'f0i upWhereAll'dan upWhereChanged olarak de\'f0i\'fetirmeliyiz. Bu ayarlama ile WHERE deyimi sadece birincil anahtar ve ve de\'f0i\'feen alanlar\'fd i\'e7erir. (De\'f0i\'femeyen alanlar\'fd i\'e7ermez) Bu bize kay\'fdtlar\'fd birle\'fetirme, ki bu durumda d\'fczeltilen sorun raporlar\'fd oluyor bu, imkan\'fd sa\'f0lar (Bu durum, 2 farkl\'fd \'feah\'fds ayn\'fd anda ayn\'fd alan\'fd d\'fczenlemedi\'f0i s\'fcrece ger\'e7ekle\'feir)\par
+\tab En sonunda unutmamak gerekir ki upWhereKeyOnly ad\'fdnda da bir se\'e7enek vard\'fdr ama bu se\'e7enek tehlikelidir. \'c7\'fcnk\'fc UPDATE ve DELETE sorgular\'fdnda WHERE deyimine di\'f0er kullan\'fdc\'fdlar\'fdn yapacaklar\'fd de\'f0i\'feiklikleri yoksayarak sadece birincil anahtar\'fd parametre olarak g\'f6nderir.\par
+\tab\'ddki dataset de tek y\'f6nl\'fc salt okunur dataset'ler oldu\'f0undan master-detay ili\'fekisinin \'e7al\'fd\'femas\'fd i\'e7in son bir i\'fe yapmam\'fdz gerekmektedir. Master veriseti \'fczerinde ilerlerken, ne zaman ana kay\'fdt setinde bir sonraki kayda bakarsak o zaman detay dataset'ini de s\'fdf\'fdrlamam\'fdz gerekir. Bu detay dataset'i de tek y\'f6nl\'fc oldu\'f0undan otomatik olarak yap\'fdlamayacak bir i\'felemdir. sqlReportUser'in AfterScroll olay tetikleyicisinde sqlComments datasetini kapat\'fdp tekrar a\'e7abiliriz ve yeni ReportID de\'f0erini parametre olarak g\'f6nderebiliriz. \'ddlgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab procedure TServerMethods1.AS_sqlReportUserAfterScroll(DataSet: TDataSet); \par
+\tab begin \par
+  \tab\tab sqlComments.Close; \par
+  \tab\tab sqlComments.ParamByName('ReportID').AsInteger := \par
+    \tab\tab sqlReportUser.FieldByName('ReportID').AsInteger; \par
+  \tab\tab sqlComments.Open; \par
+\tab end; \par
+\par
+\tab Bu asl\'fdnda, master dataset'i \'fczerinde her scroll hareketinde detay sorgunun \'e7al\'fd\'fet\'fd\'f0\'fdndan ve sunucu tarafta i\'e7i\'e7e dataset'i doldurup TDataSetProvider \'fczerinden istemciye aktard\'fd\'f0\'fdm\'fdzdan emin olmam\'fdz anlam\'fdna geliyor.\par
+\tab Unutmamak gerekir ki olay tetikleyicisinin ad\'fd varsay\'fdlan ad\'fd olan sqlReportUserAfterScroll yerine AS_sqlReportUserAfterScroll olmal\'fdd\'fdr. Bu bir ama\'e7 i\'e7in yap\'fdlm\'fd\'fet\'fdr. Sunucu metodu s\'fdn\'fdf\'fdndaki herhangi bir metod g\'f6sterilecektir ve buna sunucu taraftaki olay tetikleyicileri de dahildir. Bunun tek bir istisnas\'fd vard\'fdr, o da AS_ ile ba\'felayan metodlard\'fdr. Bu metodlar gizlidir ve sunucu metodu s\'fdn\'fdf\'fdndan d\'fd\'fear\'fdya g\'f6sterilmez. Bu bilgiyi olay tetikleyicilerini gizlemek i\'e7in kullan\'fdr\'fdz, b\'f6ylece istemci taraftaki sunucu metodu proxy unit dosyas\'fdnda da tekrardan g\'f6r\'fcnmemi\'fe olur. (Zaten istemci taraf\'fdndan dinlemede kullan\'fd\'fel\'fd olmayan bir \'feeydir.)\par
+\tab\'ddstemci taraf MinStatus ve MaxStatus de\'f0erlerini bize sa\'f0layacakt\'fdr , biz de sunucu taraf\'fdnda AssignedTo ve ReporterID alanlar\'fdn\'fd girmemiz gerekir. TDataSetProvider bile\'feeninin BeforeGetRecords olay tetikleyicisinde yap\'fdlabilir bu. Burada sqlReportUser a\'e7\'fdlmadan \'f6nce parametrelerini doldurabiliriz mesela. ReporterID ve AssignedTo alanlar\'fdn\'fdn ikisine de o anki kullan\'fdc\'fdn\'fdn login olduktan sonra tutulan UserID bilgisini atar\'fdz. Bu a\'fea\'f0\'fddaki gibi yap\'fdlabilir.\par
+\par
+\tab procedure TServerMethods1.AS_dspReportUserWithCommentsBeforeGetRecords( \par
+  \tab Sender: TObject; var OwnerData: OleVariant); \par
+\tab var \par
+  \tab\tab UserID: Integer; \par
+\tab begin \par
+  \tab\tab UserID := StrToIntDef(TDSSessionManager.GetThreadSession.GetData('UserID'),0); \par
+  \tab\tab if sqlReportUser.Params.FindParam('ReporterID') = nil then \par
+  \tab\tab begin \par
+    \tab\tab\tab with sqlReportUser.Params.AddParameter do \par
+    \tab\tab\tab begin \par
+      \tab\tab\tab\tab DataType := ftInteger; \par
+      \tab\tab\tab\tab ParamType := ptInput; \par
+   \tab\tab\tab\tab Name := 'ReporterID'; \par
+      \tab\tab\tab\tab AsInteger := UserID \par
+    \tab\tab\tab end \par
+\tab\tab end \par
+  \tab\tab else \par
+    \tab\tab\tab sqlReportUser.Params.FindParam('ReporterID').AsInteger := UserID; \par
+ \par
+  \tab\tab if sqlReportUser.Params.FindParam('AssignedTo') = nil then \par
+  \tab\tab begin \par
+    \tab\tab\tab with sqlReportUser.Params.AddParameter do \par
+    \tab\tab\tab begin \par
+      \tab\tab\tab\tab DataType := ftInteger; \par
+      \tab\tab\tab\tab ParamType := ptInput; \par
+      \tab\tab\tab\tab Name := 'AssignedTo'; \par
+      \tab\tab\tab\tab AsInteger := UserID \par
+    \tab\tab\tab end \par
+  \tab\tab end \par
+  \tab\tab else \par
+    \tab\tab\tab sqlReportUser.Params.FindParam('AssignedTo').AsInteger := UserID; \par
+\tab end; \par
+\par
+\tab Bununla, sqlReportUser'\'fdn b\'fct\'fcn parametrelerinin sorgu \'e7al\'fd\'fet\'fdr\'fdlmadan \'f6nce dolduruldu\'f0unu ve sonu\'e7 olarak, dspReportUserWithComments'deki Raporlar ve Yorumlardan talepte bulunan herhangi bir kullan\'fdc\'fd, sadece o anki kullan\'fdc\'fdn\'fdn rapor yazd\'fd\'f0\'fd, veya yaz\'fdlan raporun o kullan\'fdc\'fdya atand\'fd\'f0\'fd veya her ikisini de g\'f6rebilir. Sadece kendi raporlar\'fdn\'fdz\'fd g\'f6rebilirsiniz, ba\'fekas\'fdna ait olan raporlar\'fd g\'f6remezsiniz. Bunun i\'e7in Y\'f6netici (Manager) rol\'fcne sahip olmal\'fds\'fdn\'fdz ve GetIssues metodunu \'e7a\'f0\'fdrarak b\'fct\'fcn raporlarla ilgili olarak ku\'febak\'fd\'fe\'fd bir incelemeyi yapabilirsiniz. (Ama Yorumlar'\'fd g\'f6remezsiniz metodun \'f6zelli\'f0inden dolay\'fd)\par
+ \tab\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- TDataSetProvider \u304?\'e7in Rol Tabanl\u305? Yetkilendirme ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab DataSnap sunucusunda unuttu\'f0umuz son bir \'feey kald\'fd. TDataSetProvider i\'e7in rol tabanl\'fd yetkilendirme. Sunucu metodlar\'fdndan farkl\'fd olarak, sunucu mod\'fcl\'fcndeki bile\'feene herhangi bir \'f6zel \'f6zellik ekleyemeyiz. Bunun yerine sunucu mod\'fcl\'fcnden DirtWebMod'a ge\'e7er ve TDSAuthenticationManager bile\'feenini kullan\'fdr\'fdz.\par
+\tab Bu bile\'feenin Roles (Roller) ad\'fdnda ApplyTo, AuthorizedRoles, DeniedRoles ad\'fdnda alt \'f6zellikleri olan ve koleksiyon olarak tan\'fdmlayabilece\'f0imiz bir \'f6zelli\'f0i bulunur. ApplyTo \'f6zelli\'f0i metod ad\'fd, s\'fdn\'fdf ad\'fd veya s\'fdn\'fdf ad\'fd.metod ad\'fd gibi \'f6zelle\'fetirmeleri yapabildi\'f0imiz bir yerdir. Bizim projemizde ben sadece Geli\'fetirici roldeki kullan\'fdc\'fdlar\'fdn \'e7a\'f0\'fdrmas\'fdna izin verilecek \'f6nceden tan\'fdmlanm\'fd\'fe 7 adet IAppServerFastCall metodu belirlemek istiyorum. Bunun i\'e7in a\'fea\'f0\'fddaki resimdeki gibi Apply \'f6zelli\'f0ine bu 7 metodu eklemem gerekir.\par
+\tab Unutmamak gerekir ki e\'f0er bu metodlar\'fdn g\'fcvenli\'f0i i\'e7in \'f6zelle\'femi\'fe bir sunucu metodu s\'fdn\'fdf\'fdna ait oldu\'f0unu belirtmek istiyorsak bunlara \'f6nek olarak TServerMethods1 eklemeliyiz.\par
+\tab Apply \'f6zelli\'f0ini bir kere belirledikten sonra , AuthorizedRoles (Yetkilendirilmi\'fe Roller) \'f6zelli\'f0ine Developer (Geli\'fetirici) de\'f0erini ekleyebiliriz. B\'f6ylece d\'fd\'fear\'fd aktar\'fdlan TDataSetProvider'dan sadece Geli\'fetirici rol\'fcne sahip kullan\'fdc\'fdlar\'fdn yararlanmas\'fdna izin verilece\'f0ini belirlemi\'fe oluruz.\par
+\tab Sadece Geli\'fetirici rol\'fcndeki kullan\'fdc\'fdya raporu d\'fczenleyerek yorum ekleme izninin verilmesini kat\'fd bir karar olarak g\'f6rebilirsiniz. Bu listeye Test\'e7i ve Y\'f6netici rollerini eklemekte \'f6zg\'fcrs\'fcn\'fcz. (Buna ra\'f0men kullan\'fdc\'fdya raporu d\'fczenleme ve/veya yorum ekleme \'f6zelli\'f0ini vermek istiyorsan\'fdz bu Y\'f6netici'ye ba\'f0l\'fdd\'fdr.)\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Sunucu Da\u287?\u305?t\u305?m\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab DataSnap DIRT Sunucusunun g\'fcvenli bir \'feekilde da\'f0\'fdt\'fdm\'fdn\'fdn sa\'f0lanmas\'fd i\'e7in, HTTPS protokol\'fcn\'fc kullanarak ISAPI DLL'ini IIS \'fczerinden da\'f0\'fdtmak (yay\'fdnlamak) ya da ileti\'feim kanallar\'fdn\'fd kriptolamak i\'e7in RSA ve PC1 filtreleri ile tek ba\'fe\'fdna DataSnap Sunucusu olarak da\'f0\'fdtmak gerekir. Son durumda HTTP kullanmay\'fdp, ileti\'feim (nakil) protokol\'fc i\'e7in TCP/IP kullanman\'fdz tavsiye edilir. \'c7\'fcnk\'fc TCP/IP daha h\'fdzl\'fdd\'fdr. Ger\'e7ek hayattaki uygulamalardaki da\'f0\'fdt\'fdm se\'e7eneklerimiz \'feunlard\'fdr\par
+\tab -    HTTPS protokol\'fcn\'fc kullanarak ISAPI DLL'ini IIS \'fczerinden da\'f0\'fdtmak\par
+\tab -    PC1 ve RSA filtreleri ile tek ba\'fe\'fdna TCP/IP kullanarak \par
+\par
+\tab IIS'in ek yarar\'fd uygulama havuzlar\'fdn\'fd yap\'fdland\'fdrmam\'fdza izin vererek otomatik y\'fck dengeleme, geri d\'f6n\'fc\'fe\'fcm, sunucunun bellek ve i\'felemci kullan\'fdm\'fdna s\'fdn\'fdrlama getirme gibi destekleri sunabilmesidir. Bu sebeple DIRT DataSnap Sunucusu domain i\'e7in kurulmu\'fe bir sertifikaya sahip olan bir web sunucusu \'fczerindeki IIS'te ISAPI DLL olarak da\'f0\'fdt\'fdlm\'fd\'fe ve yay\'fdnlanm\'fd\'fet\'fdr. Bu d\'f6k\'fcmandaki ama\'e7lar i\'e7in {\field{\*\fldinst{HYPERLINK "www.bobswart.nl"}}{\fldrslt{\ul\cf2 www.bobswart.nl}}}\f1\fs20  adresi kullan\'fdlm\'fd\'fet\'fdr. Sanal bir DataSnapXE dizini olu\'feturulmu\'fe, ve bu sanal dizin i\'e7erisinde uygulamalar i\'e7in \'f6zel bir uygulama havuzu yap\'fdland\'fdr\'fdlm\'fd\'fet\'fdr. En sonunda, bu sanal dizin i\'e7erisine DirtServer.dll dosyas\'fd yerle\'fetirilmi\'fetir. Dosya {\field{\*\fldinst{HYPERLINK "https://www.bobswart.nl/DataSnapXE/DirtServer.dll"}}{\fldrslt{\ul\cf2 https://www.bobswart.nl/DataSnapXE/DirtServer.dll}}}\f1\fs20  URL adresindedir. \par
+\tab Bu URL adresini \'e7a\'f0\'fdrmak bize sadece "DataSnap XE Server" yaz\'fds\'fdn\'fd g\'f6sterir ama bu en az\'fdndan sunucunun yay\'fdnland\'fd\'f0\'fdn\'fdn do\'f0rulamas\'fd a\'e7\'fds\'fdndan yeterlidir. Elbette DirtServer.dll dosyas\'fdn\'fdn veritaban\'fdna ba\'f0lanabildi\'f0inden de emin olmam\'fdz gerekmektedir. Bu ama\'e7 i\'e7in ihtiya\'e7 duyulan veritaban\'fd s\'fcr\'fcc\'fc dosyas\'fdn\'fdn da sunucu makinas\'fdnda da\'f0\'fdt\'fdlm\'fd\'fe olmas\'fd gerekmektedir. Mesela SQL Server 2008 i\'e7in dbxmss.dll dosyas\'fdn\'fd arama yoluna yerle\'fetirmemiz gerekir (Bu yol windows\\system32 gibi DirtServer.dll dosyas\'fdn\'fdn y\'fckleyebilece\'f0inden emin oldu\'f0umuz bir yer olmal\'fd).\par
+\tab Unutmamak gerekir ki DirtServer.dll dosyas\'fd ve dbxmss.dll dosyas\'fd d\'fd\'fe\'fdnda herhangi bir dosyay\'fd web sunucusunda da\'f0\'fdtmam\'fdza, yay\'fdnlamam\'fdza gerek yoktur. MIDAS.dll dosyas\'fdna da ihtiyac\'fdm\'fdz yoktur, ilgili unit dosyalar\'fdnda MidasLib'i uses k\'fdsm\'fdna ekledi\'f0imiz zaman sunucu proje i\'e7erisine MIDAS.dll dosyas\'fdn\'fd otomatik olarak ba\'f0lamaktad\'fdr zaten.\par
+\tab E\'f0er DataSnap sunucusunu tek ba\'fe\'fdna TCP/IP protokol\'fcn\'fc ve RSA ve PC1 filtrelerini kullanarak da\'f0\'fdtmak, yay\'fdnlamak isterseniz ayr\'fdca 2 adet \'f6zel Indy SSL DLL'ini (libeay32.dll ve ssleay32.dll) de da\'f0\'fdtmak, yay\'fdnlamak ya da sunucu makinada bulundu\'f0undan emin olman\'fdz gerekir. Bu DLL'lere RSA filtresi taraf\'fdndan ihtiya\'e7 duyulur. (RSA filtresi, PC1 filtresi kullanan \'feifreyi kriptolamak i\'e7in kullan\'fdl\'fdr) Bu DLL'ler olmadan (sunucu makinada) sunucuya ba\'f0lanmak isteyen istemciler "Connection Closed Gracefully" yani "Ba\'f0lant\'fd \'ddncelikle Kapand\'fd" mesaj\'fd ile kar\'fe\'fdla\'fe\'fdrlar. \'c7\'fcnk\'fc sunucu PC1 anahtarlar\'fdn\'fd kriptolamak i\'e7in gerekli olan RSA filtresini ba\'felatacak 2 DLL dosyas\'fdn\'fd bulamam\'fd\'fet\'fdr. \par
+\tab S\'fdras\'fd gelmi\'feken, bu 2 DLL dosyas\'fd ISAPI DLL'ini HTTPS y\'f6ntemi olsa da , TCP/IP ve RSA ile PC1 ile kullan\'fdlsa da istemci taraf da ihtiya\'e7 duyar. Ama \'f6nce istemciyi olu\'fetural\'fdm, da\'f0\'fdt\'fdm\'fd i\'e7in sonra endi\'feeleniriz.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- DataSnap \lang1055\f2\'dd\lang1033\f0 stemcisi ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab DIRT DataSnap Sunucusunu da\'f0\'fdtt\'fdktan ve test ettikten sonra DataSnap \'ddstemci'sini yazmaya ba\'felayabiliriz. Bu ak\'fdll\'fd bir istemci olacak, USB veya herhangi benzer bir \'feeye konulabilecek tek ba\'fe\'fdna \'e7al\'fd\'fean bir uygulama (.exe) dosyas\'fd olacak ve herhangi bir Windows makinas\'fdnda \'e7al\'fd\'feabilecek (Bunun i\'e7in DIRT projesine eri\'feim i\'e7in, {\field{\*\fldinst{HYPERLINK "https://www.bobswart.nl"}}{\fldrslt{\ul\cf2 https://www.bobswart.nl}}}\f1\fs20  adresine eri\'feebilmek i\'e7in internet ba\'f0lant\'fds\'fdn\'fdn olmas\'fd gerekmektedir.)\par
+\tab Yeni bir VCL Form uygulamas\'fd olu\'fetururuz, ve DataSnap sunucusuna eri\'feecek bile\'feenleri yerle\'fetirmek i\'e7in bir de Data Module (Data Mod\'fcl\'fc) ekleriz. \'ddlk ad\'fdm olarak Data Mod\'fcl \'fczerine bir TSQLConnection bile\'feeni yerle\'fetiririz. Driver (S\'fcr\'fcc\'fc) \'f6zelli\'f0ine DataSnap de\'f0erini atar\'fdz, sonra bu \'f6zellik a\'f0ac\'fdn\'fd geni\'feleterek Object Inspector \'fczerinde Driver \'f6zelli\'f0inin alt \'f6zelliklerini g\'f6r\'fcr\'fcz. Burada CommunicationProtocol alt \'f6zelli\'f0ine https, Port'a 443, HostName alt \'f6zelli\'f0ine de {\field{\*\fldinst{HYPERLINK "www.bobswart.nl"}}{\fldrslt{\ul\cf2 www.bobswart.nl}}}\f1\fs20  (kendi sunucunuza ba\'f0lanmakta \'f6zg\'fcrs\'fcn\'fcz tabi ki) de\'f0erlerini atar\'fdz. URLPath \'f6zelli\'f0ine web sunucusu \'fczerinde DirtServer'\'fdn bulundu\'f0u ../DataSnapXE/DirtServer.dll de\'f0eri verilmelidir. LoginPrompt \'f6zelli\'f0ine False de\'f0erini atamay\'fd unutmamal\'fds\'fdn\'fdz, yoksa sunucuya ne zaman ba\'f0lanmak isteseniz kar\'fe\'fdn\'fdza bir ba\'f0lant\'fd diyalo\'f0u \'e7\'fdkar. Ve bu bizim istemciden sunucuya ger\'e7ek \'feifre yerine onun hashlenmi\'fe halini g\'f6ndermek istedi\'f0imizden her defas\'fdnda diyalog \'e7\'fdkmas\'fd bizim i\'e7in son derece kullan\'fd\'fes\'fdz bir durumdur.\par
+\tab Burada bir dikkat \'e7ekici bir husus var.. Do\'f0ru bir DSAuthUser ve DSAuthPassword de\'f0eri olmadan sunucuya ba\'f0lanmam\'fdza izin verilmez, sonu\'e7 olarak da DataSnap \'ddstemci S\'fdn\'fdflar\'fdn\'fdn olu\'feturulmas\'fd ba\'fear\'fds\'fdz olur. Benim makinamdaki DirtServer i\'e7in bu bir problem olur. (Ama e\'f0er isterseniz proje ar\'feivinde daha \'f6nceden olu\'feturulmu\'fe istemci s\'fdn\'fdf unit dosyas\'fd olan DBXClientClasses.pas dosyas\'fdn\'fd kullanabilirsiniz.) Kendi DataSnap Sunucunuz i\'e7in, OnUserAuthenticate olay tetikleyicisini devre d\'fd\'fe\'fd b\'fdrakman\'fdz gerekir, Valid alan\'fdna True de\'f0erini atayarak \'f6ncelikle \'ddstemci s\'fdn\'fdf\'fd olu\'feturur, sonra yetkilendirme i\'felemi i\'e7in gerekli kontrolleri tekrar etkinle\'fetirirsiniz. \par
+\tab\'ddstemci s\'fdn\'fdflar bir kere olu\'feturulduktan sonra public t\'fcrdeki sunucu metodlar\'fdndan olu\'fean TServerMethods1Client s\'fdn\'fdf\'fdn\'fd g\'f6rebilirsiniz. \par
+\par
+\tab type \par
+  \tab TServerMethods1Client = class(TDSAdminClient) \par
+  \tab\tab private \par
+    \tab\tab\tab .... \par
+  \tab\tab public \par
+    \tab\tab\tab constructor Create(ADBXConnection: TDBXConnection); overload; \par
+    \tab\tab\tab constructor Create(ADBXConnection: TDBXConnection; \par
+      \tab\tab\tab AInstanceOwner: Boolean); overload; \par
+    \tab\tab\tab destructor Destroy; override; \par
+ \par
+    \tab\tab\tab function GetCurrentUserID: Integer; \par
+    \tab\tab\tab function GetCurrentUserRoles: string; \par
+    \tab\tab\tab function GetUserNames: TDataSet; \par
+\tab\tab\tab procedure AddUser(User: string; Password: string; \par
+      \tab\tab\tab Role: string; Email: string); \par
+    \tab\tab\tab function ReportNewIssue(Project: string; Version: string; \par
+      \tab\tab\tab Module: string; IssueType: Integer; Priority: Integer; \par
+      \tab\tab\tab Summary: string; Report: string; AssignedTo: Integer): Boolean; \par
+    \tab\tab\tab function GetIssues(MinStatus: Integer; MaxStatus: Integer): TDataSet; \par
+  \tab end;\par
+\par
+\tab Ama \'f6ncesinde TServerMethods1Client'ten bir varl\'fdk olu\'feturmal\'fd, ve sunucu metodlar\'fdn\'fd \'e7a\'f0\'fdrarak, \'f6ncelikle sunucuya bir ba\'f0lant\'fd yapabildi\'f0imizden emin olmam\'fdz gerekmektedir.\par
+\tab\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Ba\u287?lant\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Projeye yeni bir form ekler ve onu bizim ba\'f0lant\'fd formumuz gibi a\'fea\'f0\'fddaki gibi tasarlar\'fdz.\par
+\tab\'deifre girebilmemiz i\'e7in edPassword olarak adland\'fdrd\'fd\'f0\'fdm\'fdz TEdit bile\'feenimizin PasswordChar \'f6zelli\'f0ine gerekli de\'f0eri atad\'fd\'f0\'fdm\'fdzdan emin olmal\'fdy\'fdz.\par
+\tab Bu diyalog bir model diyalo\'f0u olarak g\'f6sterilebilir, ve sonu\'e7 kullan\'fdc\'fd ad\'fd ve \'feifre TSQLConnection'un Params \'f6zelli\'f0ine g\'f6nderilecektir, ekleme veya var olan de\'f0eri de\'f0i\'fetirme y\'f6ntemiyle. Bir Login (Ba\'f0lant\'fd) olay tetikleyicisinde sunucu uygulamada yapt\'fd\'f0\'fdm\'fdzla ayn\'fd yolla \'feifreyi hashlememiz m\'fcmk\'fcnd\'fcr. \'ddlgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab procedure TFormClient.Login1Click(Sender: TObject); \par
+\tab var \par
+  \tab\tab MD5: TIdHashMessageDigest5; \par
+  \tab\tab Server: TServerMethods1Client; \par
+  \tab\tab UserRoles: String; \par
+ \par
+\tab begin \par
+  \tab\tab DataModule1.SQLConnection1.Connected := False; \par
+  \tab\tab UserID := -1; \par
+ \par
+  \tab\tab with TFormLogin.Create(Self) do \par
+  \tab\tab try \par
+    \tab\tab\tab if ShowModal = mrOK then \par
+    \tab\tab\tab begin \par
+      \tab\tab\tab\tab SQLConnection1.Params.Values['DSAuthenticationUser'] := Username; \par
+\tab\tab\tab\tab MD5 := TIdHashMessageDigest5.Create; \par
+      \tab\tab\tab\tab try \par
+        \tab\tab\tab\tab\tab SQLConnection1.Params.Values['DSAuthenticationPassword'] := \par
+          \tab\tab\tab\tab LowerCase(MD5.HashStringAsHex(Password, TEncoding.UTF8)); \par
+ \par
+        \tab\tab\tab\tab\tab SQLConnection1.Connected := True; // try to login... \par
+        \tab\tab\tab\tab\tab Server := TServerMethods1Client.Create(SQLConnection1.DBXConnection); \par
+        \tab\tab\tab\tab\tab try \par
+          \tab\tab\tab\tab\tab UserID := Server.GetCurrentUserID; \par
+          \tab\tab\tab\tab\tab UserRoles := Server.GetCurrentUserRoles; \par
+ \par
+          \tab\tab\tab\tab\tab // Adjust GUI capabilities based on UserRoles... \par
+ \par
+        \tab\tab\tab\tab\tab finally \par
+          \tab\tab\tab\tab\tab Server.Free \par
+        \tab\tab\tab\tab\tab end \par
+      \tab\tab\tab\tab finally \par
+        \tab\tab\tab\tab\tab MD5.Free \par
+      \tab\tab\tab\tab end \par
+    \tab\tab\tab end \par
+  \tab\tab finally \par
+    \tab\tab\tab Free // TFormLogin \par
+  \tab\tab end \par
+\tab end;\par
+\par
+\tab Unutmamak gerekir ki kullan\'fdc\'fd rollerine ba\'f0l\'fd olarak GUI k\'fdsm\'fdnda (aray\'fczde) etkinle\'fetirilmeyecek veya gizlenecek par\'e7alarla ilgili olarak b\'fct\'fcn kodu g\'f6stermedim. Bu okuyucu i\'e7in egzersiz olarak b\'fdrak\'fdlm\'fd\'fet\'fdr. Elbette DirtServer ve DirtClient projesinin kaynak kodlar\'fdn\'fd indirebilir ve detayl\'fd olarak inceleyebilirsiniz. \par
+\tab Login formu DataSnap sunucusuna var olan ba\'f0lant\'fdy\'fd kapatacak ve TSQLConnection bile\'feeninin DSAuthenticationServer ve DSAuthenticationPassword \'f6zelliklerine yeni de\'f0erler atayacakt\'fdr. Ba\'f0lant\'fdn\'fdn ba\'feaar\'fdl\'fd olup olmad\'fd\'f0\'fd, GetCurrentUserID ve GetCurrentUserRoles sunucu metodlar\'fdn\'fdn \'e7a\'f0r\'fdlmas\'fdndan sonra ba\'f0lant\'fdn\'fdn yeniden kurulmas\'fdyla g\'f6r\'fclebilir.  \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Data Mod\'fcl ve Sunucu Metodlar\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Data Mod\'fcl \'fczerindeki TSQLConnection bile\'feenini kullanarak DataSnap istemci s\'fdn\'fdflar\'fdn\'fd olu\'feturduktan sonra egzersiz olarak sunucu metodlar\'fdn\'fd direk \'e7a\'f0\'fdrmaya nadiren ihtiya\'e7 duyar\'fdz. Login kodu zaten GetCurrentUserID ve GetCurrentUserRoles olmak \'fczere 2 metodu \'e7a\'f0\'fdr\'fdyor, ama di\'f0er sunucu metodlar\'fd genelde bir salt okunur olarak veya d\'fczeltilebilir bir \'feekilde bir dataset'i almak i\'e7indir. Bunun tek istisnas\'fd ReportNewIssue metodudur ve bunu gelecek konularda irdeleyece\'f0iz.\par
+\tab\'deimdilik data mod\'fcle d\'f6nerek, 4 tane yeni bile\'feeni mod\'fcl \'fczerine yerle\'fetiririz. Bunlar; SqlServerMethodGetIssues olarak isimlendirece\'f0imiz TSqlServerMethod, dspIssues olarak isimlendirece\'f0imiz TDataSetProvider, cdsIssues olarak isimlendirece\'f0imiz TClientDataSet ve dsIssues olarak isimlendirece\'f0imiz bir TDataSource bile\'feenidir. \par
+\tab SqlServerMethodGetIssues bile\'feeni, SQLConnection \'f6zelli\'f0i ile SQLConnection1'e ba\'f0lanma ihtiyac\'fd duyar, ki bu \'feekilde DataSnap sunucusu ile ileti\'feim kurabilelim. ServerMethodName s\'fcr\'fckle b\'fdrak listesini kullanarak \'e7al\'fd\'fet\'fdrmak istedi\'f0imiz sunucu metodunu se\'e7eriz. Unutmamak gerekir ki TSQLConnection bile\'feeni \'e7al\'fd\'fean bir DataSnap Sunucusuna ba\'f0lanmal\'fd ki, sonra \'e7al\'fd\'fet\'fdrabilece\'f0imiz sunucu metodlar\'fdn\'fd g\'f6rebilelim.\par
+\tab Bizim \'f6rne\'f0imiz i\'e7in burada, TServerMethods1.GetIssue sunucu metodunu \'e7al\'fd\'fet\'fdrmaya ihtiyac\'fdm\'fdz var. Bu metod sadece Y\'f6netici rol\'fcndeki bir kullan\'fdc\'fd taraf\'fdndan \'e7a\'f0r\'fdlabilir, ve b\'fct\'fcn sorunlar ile salt okunur bir dataset geri d\'f6nd\'fcr\'fcr. (Belirlenen Status de\'f0erleri aras\'fdndaki)\par
+\tab SqlServerMethodGetIssues'de S\'fcr\'fckle b\'fdrak listesinden, sunucu metodlar se\'e7ilebilece\'f0i gibi, Params \'f6zelli\'f0ine de bakmam\'fdz gerekir. Buras\'fd bize 3 adet parametre g\'f6sterecektir. (MinStatus, MaxStatus ve ReturnParameter (D\'f6n\'fc\'fe parametresi, bir dataset)).\par
+\tab MinStatus ve MaxStatus parametreleri i\'e7in bir varsay\'fdlan de\'f0er tan\'fdmlayabilir veya kod i\'e7erisinde de\'f0er atamalar\'fdn\'fd yapabilirsiniz. (Bir sonraki kod par\'e7as\'fdn\'fdn g\'f6sterece\'f0i \'feey budur)\par
+\tab dspIssues DataSetProvider'\'fd DataSet \'f6zelli\'f0i ile SqlServerMethodGetIssues'e ba\'f0lanmal\'fdd\'fdr. \par
+\tab Sonra cdsIssues ClientDataSet bile\'feeninin ProviderName \'f6zelli\'f0ine dspIssues de\'f0erini atamal\'fdy\'fdz. Sonu\'e7 olarak d\'f6necek dataset \'fczerinde oynama yapamayca\'f0\'fdm\'fdzdan cdsIssues'in ReadOnly \'f6zelli\'f0ine True de\'f0erini atamam\'fdz iyi bir fikirdir, b\'f6ylece bu dataset'e ba\'f0lanacak herhangi bir veri eri\'feimi ile ilgili bile\'feen kullan\'fdc\'fdya de\'f0i\'feiklik yapmas\'fd i\'e7in izin vermeyecektir. (\'ddlerde de\'f0i\'feikliklerin kaydedilmedi\'f0ini veya sunucuya geri g\'f6nderildi\'f0ini \'f6\'f0rendi\'f0iniz zaman sizi \'e7\'fdld\'fdrtabilecek bir \'f6zelliktir.)\par
+\tab En sonunda dsIssues DataSource bile\'feeninin DataSet \'f6zelli\'f0ine cdsIssues de\'f0erini atar\'fdz ve b\'f6ylece dsIssues'in veri ile ilgili kontrollerine ba\'f0lanabiliriz.\par
+\tab\'deimdi istemcinin ana formunda bu veya di\'f0er sunucu metodlar\'fd vas\'fdtas\'fd ile raporlarla dolduraca\'f0\'fdm\'fdz TDBGridReports olarak adland\'fdraca\'f0\'fdm\'fdz bir TDBGrid yerle\'fetirelim. GetIssues sunucu metodunun sonu\'e7lar\'fdn\'fd yerle\'fetirmek ve MinStatus ve MaxStatus filtrelerine d\'fd\'fear\'fddan de\'f0erleri ge\'e7mek i\'e7in a\'fea\'f0\'fddaki kodu yazar\'fdz.\par
+\par
+\tab procedure TFormClient.ViewAllIssues1Click(Sender: TObject); \par
+\tab // Manager - all reports (read-only) \par
+\tab begin \par
+  \tab\tab DBGridReports.DataSource := nil; \par
+  \tab\tab DataModule1.SQLConnection1.Connected := True; \par
+  \tab\tab try \par
+    \tab\tab\tab DataModule1.cdsIssues.Close; \par
+    \tab\tab\tab DataModule1.SqlServerMethodGetIssues.Params. \par
+      \tab\tab\tab ParamByName('MinStatus').AsInteger := MinStatus; \par
+    \tab\tab\tab DataModule1.SqlServerMethodGetIssues.Params. \par
+      \tab\tab\tab ParamByName('MaxStatus').AsInteger := MaxStatus; \par
+ \par
+    \tab\tab\tab DataModule1.cdsIssues.Open; \par
+    \tab\tab\tab DBGridReports.DataSource := DataModule1.dsIssues; \par
+  \tab\tab finally \par
+    \tab\tab\tab DataModule1.SQLConnection1.Connected := False \par
+  \tab\tab end \par
+\tab end;\par
+\par
+\tab Unutmamak gerekir ki data mod\'fcl \'fczerindeki TSQLConnection bile\'feenini kullanarak DataSnap Sunucusuna ba\'f0land\'fdk, SqlServerMethodGetIssues'in parametrelerini doldurduk, sunucu metodunu \'e7a\'f0\'fdrd\'fdk, DBGridReport bile\'feenin DataSource \'f6zelli\'f0ine datasource'u atayarak sonucu g\'f6rebildik ve en sonunda DataSnap sunucu ba\'f0lant\'fds\'fdn\'fd tekrardan kapad\'fdk. Bununla beraber ba\'f0lant\'fdy\'fd a\'e7\'fdk tutabilirsiniz, talepten sonra ba\'f0lant\'fdn\'fdn kapat\'fdlmas\'fd istemciyi daha sa\'f0lam yapar (her zaman taze bir ba\'f0lant\'fd ile ba\'felam\'fd\'fe olursunuz.) ama biraz yava\'felat\'fdr (her zaman ba\'f0lant\'fdy\'fd a\'e7maya ihtiyac\'fdn\'fdz olacakt\'fdr.), ama sunucu biraz daha \'f6l\'e7\'fclebilir olur (sadece aktif ba\'f0lant\'fdlar korunmal\'fdd\'fdr.)\par
+\tab Sonu\'e7 olarak d\'f6nen dataset, IssueType (Sorun T\'fcr\'fc), Priority (\'d6ncelik), Status (Durum) gibi sadece tamsay\'fd de\'f0er i\'e7eren alanlar da i\'e7erecektir. Bu de\'f0erleri daha insan dostu string de\'f0erlere \'e7evirebiliriz. Data mod\'fcl \'fczerindeki cdsIssues ClientDataSet bile\'feenine \'e7ift t\'fdklama suretiyle Fields Edit\'f6r'\'fcn\'fc a\'e7ar\'fdz ve sa\'f0 t\'fdklayarak "Add all fields" "B\'fct\'fcn alanlar\'fd ekle" se\'e7ene\'f0ini se\'e7eriz. \par
+\tab Sorun T\'fcr\'fc, \'d6ncelik ve Durum alanlar\'fd i\'e7in OnGetText olay tetikleyicisi i\'e7erisinde basit tamsay\'fd de\'f0erleri insan dostu string de\'f0erlere \'e7eviren a\'fea\'f0\'fddaki kodu yazabiliriz.\par
+\par
+\tab procedure TDataModule1.IssueTypeGetText(Sender: TField; \par
+  \tab var Text: string; DisplayText: Boolean); \par
+\tab begin \par
+  \tab\tab case Sender.AsInteger of \par
+     \tab\tab\tab 1..4: Text := 'Minor ' + Sender.AsString; \par
+     \tab\tab\tab 5..8: Text := 'Major ' + Sender.AsString; \par
+    \tab\tab\tab 9..10: Text := 'Critical ' + Sender.AsString; \par
+  \tab\tab end; \par
+\tab end; \par
+ \par
+\tab procedure TDataModule1.PriorityGetText(Sender: TField; \par
+  \tab var Text: string; DisplayText: Boolean); \par
+\tab begin \par
+  \tab\tab case Sender.AsInteger of \par
+     \tab\tab\tab 1..3: Text := 'Low ' + Sender.AsString; \par
+     \tab\tab\tab 4..7: Text := 'Medium ' + Sender.AsString; \par
+    \tab\tab\tab 8..10: Text := 'High ' + Sender.AsString; \par
+\tab\tab end; \par
+\tab end; \par
+ \par
+\tab procedure TDataModule1.StatusGetText(Sender: TField; var Text: string; \par
+  \tab DisplayText: Boolean); \par
+\tab begin \par
+  \tab\tab case Sender.AsInteger of \par
+    \tab\tab\tab 1: Text := 'Reported'; \par
+    \tab\tab\tab 2: Text := 'Assigned'; \par
+    \tab\tab\tab 3: Text := 'Opened'; \par
+\tab\tab\tab 6: Text := 'Solved'; \par
+    \tab\tab\tab 7: Text := 'Tested'; \par
+    \tab\tab\tab 8: Text := 'Deployed'; \par
+   \tab\tab\tab 10: Text := 'Closed'; \par
+  \tab\tab end; \par
+\tab end; \par
+\par
+\tab Bu alanlara kendi \'e7evirmeniz i\'e7in istedi\'f0iniz kodu yazmakta \'f6zg\'fcrs\'fcn\'fcz, ama amac\'fdm\'fdz i\'e7in bu kod par\'e7as\'fd yeterlidir. Unutmamak gerekir ki orjinal tamsay\'fd de\'f0eri hala Sorun T\'fcr\'fc ve \'d6ncelikte g\'f6sterilmektedir ki ger\'e7ek de\'f0erin ne oldu\'f0u ufak da olsa hat\'fdrlat\'fdls\'fdn diye.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- UserNames (Kullan\u305?c\u305? Adlar\u305?) Sunucu Metodu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Benzer bir yolla GetUserNames sunucu metodunu \'e7a\'f0\'fdrmak i\'e7in bir TSqlServerMethod bile\'feeni yerle\'fetiririz data mod\'fcl \'fczerine. Ayr\'fdca dspUserNames olarak adland\'fdraca\'f0\'fdm\'fdz bir TDataSetProvider ve kullan\'fdc\'fd adlar\'fd ile UserID de\'f0erlerinin listesini tutmak i\'e7in de cdsUserNames ad\'fdnda bir TClientDataSet bile\'feeni yerle\'fetiririz.\par
+\tab SqlServerMethodsGetUserNames ad\'fdndaki TSqlServerMethod bile\'feeni ile TSQLConnection'a ba\'f0lan\'fdp buradan TServerMethods1.GetUserNames metodunu se\'e7eriz. dspUserNames DataSetProvider'i ise cdsUserName ClientDataSet'ine b\'fct\'fcn kay\'fdtlar\'fd alabilmesi i\'e7in ba\'f0lamak amac\'fdyla kullan\'fdl\'fdr.\par
+\tab Fields Edit\'f6r kullanarak cdsUserNames'in Name ve UserID olmak \'fczere 2 alan tuttu\'f0unu do\'f0rular\'fdz. Bu dataset bir dizi ismi sa\'f0lamak i\'e7in bir destek dataseti olarak veya bir UserID de\'f0erini (mesela AssignedTo veya ReporterID alanlar\'fdndan gelen) ID'den okunabilir bir isme \'e7evirmek i\'e7in kullan\'fdlabilir. \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- DSProviderConnection ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab\'deimdi Geli\'fetirici veya Test\'e7i rol\'fcndeki bir kullan\'fdc\'fd i\'e7in raporlanan olaylara bakal\'fdm. Bu durumda GetIssues sunucu metodunu \'e7a\'f0\'fdramay\'fdz, ama sunucudan d\'fd\'fear\'fd aktar\'fdlm\'fd\'fe dspReportUserWithComments ad\'fdndaki TDataSetProvider bile\'feenini kullanabiliriz. \par
+\tab Bunun i\'e7in data mod\'fcl \'fczerine bir TDSProviderConnection bile\'feeni, cdsReports ve cdsComments olarak adland\'fdraca\'f0\'fdm\'fdz 2 tane TClientDataSet ve cdsReports'a ba\'f0lanmas\'fd i\'e7in dsReports olarak adland\'fdraca\'f0\'fdm\'fdz bir TDataSource bile\'feeni ekleriz.\par
+\tab DSProviderConnection bile\'feeni DataSnap sunucusundaki sunucu metodu s\'fdn\'fdf\'fdna ba\'f0lanacak bir bile\'feendir. Bizim projemizde bu sadece TServerMethods1 s\'fdn\'fdf\'fdd\'fdr. DSProviderConnection bile\'feenini SQLConnection \'f6zelli\'f0ine TSQLConnection de\'f0erini atamal\'fdy\'fdz, ve sonras\'fdnda ServerClassName \'f6zelli\'f0ine sunucu metod s\'fdn\'fdf\'fdn\'fdn tam ad\'fdn\'fd yazmal\'fdy\'fdz. Bu isim TServerMethods1'dir (Kesinlikle sunucu metodu s\'fdn\'fdf\'fdn\'fdn ad\'fdn\'fdn ayn\'fd olup olmad\'fd\'f0\'fdn\'fd kontrol edebilirsiniz.)\par
+\tab Bir sonraki ad\'fdm olarak cdsReport ClientDataSet bile\'feenini DSProviderConnection bile\'feenine RemoteServer \'f6zelli\'f0ine gerekli de\'f0eri atayarak ba\'f0lar\'fdz. Her \'feey do\'f0ru bir \'feekilde kuruldu\'f0unda ve DataSnap sunucusu \'e7al\'fd\'fe\'fdp gelen ba\'f0lant\'fdlar\'fd kabul etti\'f0inde cdsReports'un ProviderName \'f6zelli\'f0indeki s\'fcr\'fckle b\'fdrak listesini a\'e7abilir ve buradan dspReportUserWithComments'i se\'e7ebiliriz.\par
+\tab Sonu\'e7 olarak dspReportUserWithComments'ten d\'fd\'fear\'fd aktar\'fdlan master-detay \'f6zelli\'f0indeki dataset art\'fdk cdsReports i\'e7erisinde saklanabilir. Art\'fdk parametreler gibi alanlar\'fd da yap\'fdland\'fdrabiliriz. En ba\'feta cdsReports'a sa\'f0 t\'fdklar ve Fetch Params se\'e7ene\'f0ini se\'e7eriz. Bu cdsReports'un Params koleksiyonunu dolduracakt\'fdr (MinStatus ve MaxStatus de\'f0erlerini otomatik atacak ama AssignedTo ve ReporterID alanlar\'fdn\'fd atmayacak \'e7\'fcnk\'fc biz onu sunucu taraf\'fdndan engelledik istemcide g\'f6r\'fcnmesini)\par
+\tab Bu parametrelere varsay\'fdlan de\'f0erler atayabiliriz ama kod i\'e7erisinde k\'fdsaca d\'fd\'fear\'fddan de\'f0er atamay\'fd zaten yapaca\'f0\'fdz. \par
+\tab Ayr\'fdca cdsReports \'fczerine \'e7ift t\'fdklay\'fdp Fields Edit\'f6r'\'fcn\'fc ba\'felat\'fdr ve burada sa\'f0 t\'fdklay\'fdp "Add all fields" se\'e7ene\'f0ini se\'e7eriz. Bu, bize en sonunda \'f6zel bir alan olan sqlComments ile birlikte 13 adet alan d\'f6nd\'fcr\'fcr.\par
+\tab Bu alan i\'e7i\'e7e detay kay\'fdtlar\'fd i\'e7erir, bu projede bunlar master Rapor kayd\'fdna ait olan "yorum" kay\'fdtlar\'fdd\'fdr. Buradaki TDataSetField alan\'fdn\'fd cdsComments ad\'fdndaki TClientDataSet bile\'feenini doldurmak i\'e7in kullanabiliriz.\par
+\tab cdsComments bile\'feenini se\'e7erek ve Object Inspector'u kullanarak cdsReportssqlComments de\'f0erini bile\'feenin DataSetField \'f6zelli\'f0ine atar\'fdz. cdsComments dataset'i art\'fdk otomatik olarak cdsReports dataset'indeki master kayd\'fdn detay kay\'fdtlar\'fd ile doldurulacakt\'fdr. (Raporun yorumlar\'fd) \par
+\tab Ayr\'fdca cdsComments'e \'e7ift t\'fdklay\'fdp gelen Fields Edit\'f6r'De sa\'f0 t\'fdklayarak "Add all fields" diyerek alanlar\'fdn\'fd getiririz.\par
+\tab\'ddki ClientDataSet'in de ilk alanlar\'fd olan birincil anahtar\'fdnda biraz yap\'fdland\'fdrmaya ihtiya\'e7 duyulmaktad\'fdr. ReportID ve CommentID alanlar\'fdn\'fd otomatik artan alanlar olarak belirledi\'f0imizden bunlar\'fd veritaban\'fdna yazmamam\'fdz gerekmektedir. Sonu\'e7 olarak cdsReportsReportID ve cdsCommentsCommentID alanlar\'fdn\'fdn ProviderFlags \'f6zelliklerini d\'fczenlemeli, pfInUpdate alt \'f6zelliklerini False, pfInKey alt \'f6zelliklerini True yapmal\'fdy\'fdz. B\'f6ylece ClientDataSet bile\'feenleri birincil anahtar\'fdn ger\'e7ekten anahtar oldu\'f0unu bilir, ama bunlar\'fd sunucuya yazamaz veya g\'fcncelleyemez.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Arama Alanlar\u305? (Lookup Fields) Eklemek ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab\'deimdi cdsReports'a geri d\'f6nelim ve alan listesine tekrar bakal\'fdm. Burada daha \'f6nceden Y\'f6netici kullan\'fdc\'fds\'fd i\'e7in d\'f6nen cdsIssues'de oldu\'f0u gibi \'e7evrilmesi gereken bir ka\'e7 alan vard\'fdr. Bu alanlar daha \'f6nce de kod i\'e7erisinde ele ald\'fd\'f0\'fdm\'fdz OnGetText olay tetikleyicilerinde ele al\'fdnan Issue Type (Sorun T\'fcr\'fc), Priority (\'d6ncelik) ve Status (Sorun) alanlar\'fdd\'fdr (Ayn\'fd data mod\'fclde ele al\'fdnan).   \par
+\tab Ayr\'fdca ReporterID ve AssignedTo alanlar\'fd da \'e7evrilmeye ihtiya\'e7 duyulan alanlard\'fdr. Bu alanlar sadece UserID de\'f0eri tutan ama kullan\'fdc\'fd ad\'fd bilgisini tutmayan alanlard\'fdr. cdsUserName bile\'feenini arama kayna\'f0\'fd olarak kullanarak cdsReports \'fczerine 2 adet arama alan\'fd ekleriz. Bunun i\'e7in cdsReports'un Fields Edit\'f6r'\'fcnde sa\'f0 t\'fdklay\'fdp "New Field" "Yeni alan" se\'e7ene\'f0ini se\'e7er ve ReporterName ad\'fdnda yeni bir arama alan\'fd ekleriz.\par
+\tab Ayn\'fds\'fdn\'fd cdsReports'taki AssignedTo alan\'fd ile ilgili olarak AssignedName ad\'fdnda bir arama alan\'fd daha ekleriz. Ve cdsComments i\'e7indeki UserID alan\'fdn\'fd unutmadan oraya da UserName ad\'fdnda bir arama alan\'fd ekleriz. (Belgedeki \'f6rnek resme bakmak laz\'fdm)\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Otomatik Artan Alanlar ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab\'d6zellikle master - detay ili\'fekilerde otomatik artan alanlar\'fdn daha iyi \'e7al\'fd\'femas\'fd i\'e7in bir ka\'e7 fazla ad\'fdm uygulamak gerekiyor. Sunucuya ReportID ve CommentID de\'f0erlerini yazamamam\'fdza ra\'f0men, istemci tarafta yeni bir sorun veya yeni bir yorum olu\'fetururken bir de\'f0er atamas\'fdna izin vermemiz gerekir. Bu yeni eklenecek kay\'fdtlar i\'e7in -1'den ba\'felay\'fdp geriye do\'f0ru giden negatif anahtar de\'f0erler kullanmal\'fdy\'fdz. \'ddki ClientDataSet bile\'feeninde AfterInsert olay tetikleyicisinde a\'fea\'f0\'fddaki kodla bu ger\'e7ekle\'fetirilebilir.\par
+\par
+\tab procedure TDataModule1.cdsReportsAfterInsert(DataSet: TDataSet); \par
+\tab begin \par
+  \tab\tab cdsReportsReportID.AsInteger := -1; \par
+\tab end; \par
+ \par
+\tab procedure TDataModule1.cdsReportsOrCommentsAfterPostOrDelete(DataSet: TDataSet); \par
+\tab begin \par
+  \tab\tab cdsReports.ApplyUpdates(-1) \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki burada yaz\'fdlan kod, sadece -1 de\'f0erini atay\'fdp geriye do\'f0ru say\'fdm yapm\'fdyor. \'ddstemci uygulama herhangi bir yazma veya silme olay\'fdnda b\'fct\'fcn g\'fcncellemeleri sunucuya g\'f6nderiyorsa geriye do\'f0ru say\'fdma gerek yoktur. Bu demektir ki olas\'fd negatif de\'f0ere sahip 1'den fazla kay\'fdt (o anda g\'fcncellenen) bulunmayacakt\'fdr. Ekleme veya d\'fczenleme i\'feleminden sonra yeni kay\'fdt sunucuya g\'f6nderilecek, ve yapmam\'fdz gereken tek \'feey cdsReports ve cdsComments'in i\'e7eri\'f0ini yenileyerek otomatik artan de\'f0erleri almas\'fdn\'fd sa\'f0lamak olacakt\'fdr.\par
+\tab Bu ama\'e7la iki ClientDataSet bile\'feeninin (cdsReports ve cdsComments) AfterPost ve AfterDelete olay tetikleyicilerindeki kodu yazmam\'fdz gerekmektedir. \'ddyi haber yapmam\'fdz gereken \'feeyle ilgili olarak 4 olay tetikleyicisinin de tek bir yerden payla\'fe\'fdlabiliyor olmas\'fdd\'fdr. \'ddlgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab procedure TDataModule1.cdsReportsOrCommentsAfterPostOrDelete(DataSet: TDataSet); \par
+\tab begin \par
+  \tab\tab cdsReports.ApplyUpdates(0); \par
+  \tab\tab cdsReports.Refresh \par
+\tab end; \par
+\par
+\tab Bu kod ile sunucuya herhangi bir de\'f0i\'feikli\'f0i g\'f6nderece\'f0imizi ve Refresh (yenile) metodu ile sunucudaki datay\'fd yenileyece\'f0imizden emin oluyoruz.\par
+\tab Refresh (Yenileme) sadece birincil alan de\'f0erlerini yenilemez, se\'e7ti\'f0imiz kay\'fdtlar i\'e7erisindeki b\'fct\'fcn verileri yeniler. Bu b\'fcy\'fck say\'fddaki kay\'fdtlar i\'e7in ak\'fdll\'fdca bir i\'fe olmayabilir, k\'f6t\'fc bir fikir olabilir ama bu durumda d\'fd\'fear\'fdya aktar\'fdlan DataSetProvider sadece o kullan\'fdc\'fdya ait olan ve MinStatus ve MaxStatus parametre de\'f0erleri aras\'fdnda kalan Raporlar\'fd (Yorumlar\'fd ile birlikte) d\'f6nd\'fcrd\'fc\'f0\'fcnden e\'f0er test\'e7i veya geli\'fetirici rol\'fcndeki kullan\'fdc\'fd fanatikse belki kullan\'fdc\'fd ba\'fe\'fdna binlerce kay\'fdtl\'fdk i\'fe olur.\par
+\tab Geli\'fetirici veya Test\'e7i rol\'fcndeki bir kullan\'fdc\'fdn\'fdn sorunlar\'fd g\'f6rebilmesi i\'e7in gerekli kod a\'fea\'f0\'fddaki gibidir.\par
+\par
+\tab procedure TFormClient.ViewMyIssues1Click(Sender: TObject); \par
+\tab // Developer/Tester personal reports \par
+\tab begin \par
+  \tab\tab DBGridReports.DataSource := nil; \par
+  \tab\tab DataModule1.SQLConnection1.Connected := True; \par
+  \tab\tab try \par
+    \tab\tab\tab DataModule1.cdsReports.Close; \par
+    \tab\tab\tab DataModule1.cdsReports.Params.ParamByName('MinStatus').AsInteger := \par
+      \tab\tab\tab MinStatus; \par
+    \tab\tab\tab DataModule1.cdsReports.Params.ParamByName('MaxStatus').AsInteger := \par
+      \tab\tab\tab MaxStatus; \par
+    \tab\tab\tab DataModule1.cdsReports.Open; \par
+    \tab\tab\tab DBGridReports.DataSource := DataModule1.dsReports; \par
+ \tab\tab\tab\par
+    \tab\tab\tab // nested dataset \par
+\tab\tab\tab   DBGridReports.Columns[DBGridReports.Columns.Count-1].Visible := False; \par
+  \tab\tab finally \par
+    \tab\tab\tab DataModule1.SQLConnection1.Connected := False \par
+  \tab\tab end \par
+\tab end; \par
+\par
+\tab TDBGrid i\'e7erisindeki son kolon i\'e7i\'e7e (yuvalanm\'fd\'fe) bir datasettir. cdsReports i\'e7erisindeki Fields Edit\'f6r'den bu alan\'fdn Visible \'f6zelli\'f0ine False de\'f0eri atayarak ya da TDBGrid i\'e7erisindeki son kolonun Visible \'f6zelli\'f0ine False de\'f0eri atayarak g\'f6r\'fcn\'fcp g\'f6r\'fcnmeyece\'f0ini ayarlayabiliriz. Yukar\'fddaki kod \'fczerinde ayarlamak da bir se\'e7enektir.\par
+\tab Unutmamak gerekir ki en sondaki i\'e7i\'e7e kolon d\'fd\'fe\'fdnda raporlanan sorunla ilgili kod SqlServerMethodGetIssues taraf\'fdndan d\'fd\'fear\'fd \'e7\'fdkar\'fdlan Y\'f6netici rol\'fcndeki kullan\'fdc\'fdn\'fdn \'e7a\'f0\'fdrd\'fd\'f0\'fd GetIssues metodunun koduna \'e7ok benzemektedir. Bununla beraber Y\'f6neticinin \'e7a\'f0\'fdrd\'fd\'f0\'fd metoddan d\'f6nen de\'f0er salt okunur bir datasettir (ReadOnly \'f6zelli\'f0ine gerekli de\'f0er atand\'fd\'f0\'fdndan), Geli\'fetirici ve Test\'e7i'nin \'e7a\'f0\'fdrd\'fd\'f0\'fd metoddan d\'f6nen de\'f0er \'fczerinde de\'f0i\'feiklik yapabilece\'f0imiz bir datasettir.\par
+\tab Bununla beraber bu de\'f0i\'feiklikler i\'e7in kullan\'fdc\'fdlar\'fdn veriyi grid \'fczerinden d\'fczeltmesini istemedi\'f0imizden ki\'feisel sorun raporlar\'fdn\'fd d\'fczenlemeleri i\'e7in yeni bir form tasarlamak gerekiyor.\par
+ \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Raporlanan Sorun Formu ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab Olu\'feturulacak Raporlanan Sorun Formu, sadece 2 adet TDataSource (dsComments ve dsReports) ve master Rapor ve detay Yorum kay\'fdtlar\'fdn\'fd g\'f6sterecek bir miktar veri kontrol bile\'feeni i\'e7erecektir. Amac\'fdm\'fdz i\'e7in formun tasar\'fdm\'fd a\'fea\'f0\'fddaki resimdeki gibi olacakt\'fdr ama siz kendi tasar\'fdm\'fdn\'fdz\'fd yapmak konusunda \'f6zg\'fcrs\'fcn\'fcz.\par
+\tab Yorumlar bir TDBGrid i\'e7erisinde, yorumlar ile ilgili olarak o anki yorumun detay bilgileri ise bir TDBMemo bile\'feeni i\'e7erisinde g\'f6sterilecektir. Yorum eklemek grid \'fczerinden m\'fcmk\'fcn olmayacak (\'f6yle bir imkan olmas\'fdna ra\'f0men), yeni bir formda yap\'fdlmas\'fd daha iyi olur. Yeni yorum eklemek i\'e7in \'f6zel bir form tasarlayaca\'f0\'fdz ve bununla ilgili kod a\'fea\'f0\'fddaki gibi olacakt\'fdr.\par
+\par
+\tab procedure TFormIssue.btnNewCommentClick(Sender: TObject); \par
+\tab begin \par
+  \tab\tab with TFormComments.Create(Self) do \par
+  \tab\tab try \par
+    \tab\tab\tab ShowModal; \par
+  \tab\tab finally \par
+    \tab\tab\tab Free \par
+  \tab\tab end \par
+\tab end; \par
+\par
+\tab Yeni form, 2 buton, bir adet TMemo ve bir adet scrollbar'dan olu\'fean basit bir g\'f6r\'fcn\'fcme sahip olacakt\'fdr. Bununla ilgili olarak a\'fea\'f0\'fddaki resme bakabilirsiniz.\par
+\tab Unutmamak gerekir ki sadece o andaki yorumun yeni bir yorum eklenmeye ihtiyac\'fd vard\'fd, istemci uygulama hangi rapora yorum ekleyece\'f0imizi bildi\'f0inden (o anki rapor), o da o anki kullan\'fdc\'fdy\'fd ve tarihi bildi\'f0inden, elle girece\'f0imiz tek alan o an ekleyece\'f0imiz yorumun kendisidir.\par
+\tab Sonu\'e7 olarak yorum ekleme ile ilgili butonun Click olay tetikleyicisindeki kod a\'fea\'f0\'fddaki gibidir.\par
+\par
+\tab procedure TFormComments.BitBtn1Click(Sender: TObject); \par
+\tab begin \par
+  \tab\tab DataModule1.cdsComments.Insert; \par
+  \tab\tab DataModule1.cdsCommentsCommentID.AsInteger := -1; \par
+  \tab\tab DataModule1.cdsCommentsUserID.AsInteger := UserID; \par
+  \tab\tab DataModule1.cdsCommentsCommentDate.AsDateTime := Now; \par
+  \tab\tab DataModule1.cdsCommentsComment.AsString := Memo1.Text; \par
+  \tab\tab DataModule1.cdsComments.Post; \par
+  \tab\tab Close \par
+\tab end; \par
+\par
+\tab Bu ayr\'fdca diyalo\'f0u kapatarak, kullan\'fdc\'fdya rapor ve yorumlar\'fdn yenilenmi\'fe halini geri d\'f6nd\'fcrecektir. \par
+ \par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- Yeni Sorun Raporlama ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab En son bir olay\'fdm\'fdz daha kald\'fd, yeni bir sorun raporlamak. Bunun i\'e7in elle ReportNewIssue metodunu Project, Version, Module, IssueType, Priority, Summary, Report ve se\'e7enekli olarak AssignedTo arg\'fcmanlar\'fdn\'fd parametre olarak ge\'e7erek \'e7a\'f0\'fdrmal\'fdy\'fdz. Yap\'fdlmas\'fd zor bir \'feey de\'f0ildir, basit girdi kontrolleri ve sunucudaki metodu direkt \'e7a\'f0\'fdrarak yap\'fdlabilir.\par
+\tab Bununla beraber cdsReports tablosuna yeni bir kay\'fdt eklemek i\'e7in DSProviderConnection bile\'feenine ba\'f0lanm\'fd\'fe haz\'fdrda var olan cdsReports bile\'feenini kullanabiliriz. Otomatik olarak birincil anahtar de\'f0erine -1 atayarak, ve GUI (aray\'fcz) i\'e7in gerekli olan veri kontrol bile\'feenlerini ekleyerek bu i\'felemi yapabiliriz. ReportNewIssue sunucu metodunu yoksayarak (sadece Test\'e7i rol\'fcndeki kullan\'fdc\'fdlar\'fdn \'e7a\'f0\'fdrmas\'fdna izin veriliyor), Test\'e7i ve Geli\'fetirici taraf\'fdndan kullan\'fdlmas\'fdna izin verilen dataset sa\'f0lay\'fdc\'fd fonksiyonelli\'f0ini kullanabiliriz.\par
+\tab Veri kontrol\'fcne (data aware) sahip Report New Issue formu a\'fea\'f0\'fddaki resimdeki gibi tasarlanabilir. Formda data mod\'fcl \'fczerindeki cdsReports'a ba\'f0lanan bir TDataSource ve veri kontrol bile\'feenleri bulunur.\par
+\tab FormCreate olay tetikleyici i\'e7erisinde cdsReports dataset'ine bir Ekleme (Insert) i\'felemi yap\'fdl\'fdr. Bununla ilgili olarak UserID de\'f0erini (o anki kullan\'fdc\'fdn\'fdn) ReporterID de\'f0erini atayarak, Status de\'f0erini "reported" anlam\'fdna gelen 1 de\'f0erini atayarak, ReportDate de\'f0erine Now (\'feu an) de\'f0erini atayarak yapar\'fdz. Form \'fczerindeki ReporterID, Status ve ReportDate alanlar\'fd salt okunur alanlard\'fdr.\par
+\tab Rapor eklemek i\'e7in gerekli olan butonun (Formda OK yazan buton) Click olay tetikleyicisinde Post (yazma) i\'felemi yapar ve formu kapat\'fdr, Cancel (\'ddptal) butonu da rapor ekleme i\'felemini iptal eder ve formu kapat\'fdr. \'ddlgili kod a\'fea\'f0\'fddaki gibidir.\par
+\par
+\tab procedure TFormNewIssue.FormCreate(Sender: TObject); \par
+\tab begin \par
+  \tab\tab dsReports.DataSet.Open; \par
+  \tab\tab dsReports.DataSet.Insert; \par
+  \tab\tab dsReports.DataSet.FieldByName('ReporterID').AsInteger := UserID; \par
+  \tab\tab dsReports.DataSet.FieldByName('Status').AsInteger := 1; \par
+  \tab\tab dsReports.DataSet.FieldByName('ReportDate').AsDateTime := Date; \par
+\tab end; \par
+\par
+\tab procedure TFormNewIssue.btnOKClick(Sender: TObject); \par
+\tab begin \par
+  \tab\tab dsReports.DataSet.Post; \par
+  \tab\tab Close \par
+\tab end; \par
+ \par
+\tab procedure TFormNewIssue.btnCancelClick(Sender: TObject); \par
+\tab begin \par
+  \tab\tab dsReports.DataSet.Cancel; \par
+  \tab\tab Close \par
+\tab end; \par
+\par
+\tab Unutmamak gerekir ki, IssueType, Priority ve AssignedTo alanlar\'fdna gerekli olan de\'f0erler basit TDBEdit bile\'feenleri ile atan\'fdr. IssueType ve Priority alanlar\'fd i\'e7in say\'fdsal spinedit bile\'feeni kullanmak iyi bir fikirdir, benzer olarak da AssignedTo alan\'fdna bilinen kullan\'fdc\'fd de\'f0erlerini atamak i\'e7in bir s\'fcr\'fckle b\'fdrak TComboBox bile\'feeni kullanmak iyi bir fikirdir. AssignedTo alan\'fdna ihtiya\'e7 duyulmuyorsa TDBLookUpComboBox bile\'feeni kullanmamal\'fdy\'fdz. (E\'f0er raporu herhangi bir kullan\'fdc\'fdya atamak istemesek bile bu bile\'feen herhangi bir kullan\'fdc\'fd se\'e7memize zorlar bizi.) Bu y\'fczden FormCreate olay tetikleyicisindeki kullan\'fdc\'fd adlar\'fd ile doldurulan bir d\'fczenli TComboBox bile\'feeni kullan\'fdr\'fdz. Bununla ilgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab DataModule1.cdsUserNames.Open; // in case it was closed \par
+  \tab DataModule1.cdsUserNames.First; \par
+  \tab cbAssignedTo.Items.Clear; \par
+  \tab cbAssignedTo.Items.Add('Nobody'); \par
+ \par
+  \tab while not DataModule1.cdsUserNames.Eof do \par
+  \tab begin \par
+    \tab\tab // current user name \par
+    \tab\tab if DataModule1.cdsUserNamesUserID.AsInteger = UserID then \par
+      \tab\tab\tab edReporter.Text := DataModule1.cdsUserNamesName.AsString; \par
+ \par
+    \tab\tab cbAssignedTo.Items.AddObject( \par
+      \tab\tab DataModule1.cdsUserNamesName.AsString, \par
+      \tab\tab TUserID.Create(DataModule1.cdsUserNamesUserID.AsInteger)); \par
+ \par
+\tab     \tab DataModule1.cdsUserNames.Next; \par
+  \tab end; \par
+\par
+\tab TUserID s\'fdn\'fdf\'fd UserID de\'f0erlerini tutmak ve ComboBox'\'fdn Items \'f6zelli\'f0ine AddObject metoduna 2. arg\'fcman olarak g\'f6nderebilmek i\'e7in olu\'feturdu\'f0um bir destek s\'fdn\'fdf\'fdd\'fdr.\par
+\par
+\tab type \par
+  \tab TUserID = class \par
+    \tab\tab UserID: Integer; \par
+    \tab\tab constructor Create(const NewUserID: Integer); \par
+  \tab end; \par
+ \par
+\tab constructor TUserID.Create(const NewUserID: Integer); \par
+\tab begin \par
+\tab\tab inherited Create; \par
+  \tab\tab UserID := NewUserID \par
+\tab end;\par
+\par
+\tab Bellek s\'fdz\'fdnt\'fds\'fdn\'fd (yetmezli\'f0ini) engellemek i\'e7in FormClose olay tetikleyicisi i\'e7erisinde form kapand\'fd\'f0\'fd zaman TComboBox bile\'feeni i\'e7erisindeki de\'f0erleri temizlememiz gerekir. Bununla ilgili kod a\'fea\'f0\'fddad\'fdr.\par
+\par
+\tab procedure TFormNewIssue.FormClose(Sender: TObject; \par
+  \tab var Action: TCloseAction); \par
+\tab var \par
+  \tab\tab i: Integer; \par
+\tab begin \par
+  \tab\tab for i:=0 to cbAssignedTo.Items.Count-1 do \par
+    \tab\tab\tab if Assigned(cbAssignedTo.Items.Objects[i]) then \par
+      \tab\tab\tab\tab cbAssignedTo.Items.Objects[i].Free \par
+\tab end;  \par
+\par
+\tab Unutmamak gerekir ki o anki kullan\'fdc\'fdn\'fdn ad bilgisini edReporter olarak adland\'fdrd\'fd\'f0\'fdm\'fdz bir TEdit bile\'feenini Text \'f6zelli\'f0ine atamaktay\'fdz. Bu y\'fczden raporu onaylayan\'fdn ad bilgisini g\'f6rme imkan\'fdm\'fdz bulunmaktad\'fdr. (Bu bizim kendi ad\'fdm\'fdz olmal\'fdd\'fdr)\par
+\tab Report New Issue formunun tasar\'fdm\'fd a\'fea\'f0\'fddaki resimdeki gibi olacakt\'fdr.\par
+\tab Unutmamak gerekir ki IssueType ve Priority TSpinEdit bile\'feenlerinin varsay\'fdlan de\'f0erlerine 1, ve MinValue \'f6zelli\'f0i 1, MaxValue \'f6zelli\'f0ine de 10 de\'f0erleri atanmal\'fdd\'fdr. Mesela daha acil sorunlar\'fd raporlamak i\'e7in bu bile\'feenlerin varsay\'fdlan de\'f0erlerini 5 olarak atayabilirsiniz, bu konuda \'f6zg\'fcrs\'fcn\'fcz.\par
+\tab Son olarak opsiyonel olarak, o anki dataset \'fczerinde Project, Verison ve Module alanlar\'fdn\'fdn de\'f0erlerini alabilmek i\'e7in Project, Version, Module girdi alanlar\'fd i\'e7in TComboBox bile\'feenlerini form \'fczerine ekleyebiliriz. Bununla beraber bu okuyucuya egzersiz olarak b\'fdrak\'fdlm\'fd\'fet\'fdr.\par
+\cf1\lang1033\f0\fs24\par
+\ul\b --- \lang1055\f2\'dd\lang1033\f0 stemci Da\u287?\u305?t\u305?m\u305? ---\ulnone\b0\par
+\par
+\cf0\lang1055\f1\fs20\tab E\'f0er DataSnap \'ddstemci projesinin uses k\'fdsm\'fdna MidasLib de\'f0erini eklersek bu tek ba\'fe\'fdna \'e7al\'fd\'fean bir uygulama dosyas\'fd halini al\'fdr. Herhangi bir veritaban\'fd s\'fcr\'fcc\'fcs\'fcne (database driver) ihtiya\'e7 bulunmamaktad\'fdr. Bununla beraber ISAPI DLL'i HTTPS ve TCP/IP \'fczerinden tek ba\'fe\'fdna \'e7al\'fd\'fean uygulama dosyas\'fd (.exe) RSA ve PC1 filtrelerini kulland\'fd\'f0\'fdndan DataSnap istemcisi ile birlikte libeay32.dll ve ssleay32.dll dosyalar\'fdn\'fd da da\'f0\'fdtmal\'fd (yay\'fdnlamal\'fd) veya istemci makinada bulundu\'f0undan emin olmal\'fdy\'fdz.\par
+\tab DirtCleaner uygulama dosyas\'fd ve 2 adet DLL dosyas\'fdn\'fdn DirtServer'a (veritaban\'fd ve DataSnap sunucusu) ba\'f0lanmas\'fd i\'e7in internet ba\'f0lant\'fds\'fdna ihtiya\'e7 duyulmaktad\'fdr. Bunun d\'fd\'fe\'fdnda herhangi bir \'feeye ihtiya\'e7 duyulmamaktad\'fdr. Sunucuya ba\'f0lan\'fdp Y\'f6netici, Test\'e7i ve Geli\'fetirici rollerinden birini alabilmek i\'e7in ge\'e7erli bir kullan\'fdc\'fd ad\'fd ve \'feifreye ihtiya\'e7 duyulmaktad\'fdr. DirtServer ve DirtCleaner projelerinin kaynak kodlar\'fd indirilmek \'fczere bulunmaktad\'fdr. Bu projenin daha rafine versiyonu benim DataSnap XE kurs materyalimde bulunacak ve g\'f6sterilecektir. (Kay\'fdtl\'fd okuyucular\'fdm i\'e7in rapor atlamalar\'fd ve hata raporlar\'fd da kurs materyalim i\'e7erisinde bulunacakt\'fdr)\par
+\f4\fs22\par
+}
+ 
