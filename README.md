@@ -26,6 +26,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
     - [**Tasarım Örüntüleri**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri/Tasarım%20Örüntüleri)
  - [**Analiz**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Analiz)
  - [**Diğer** (*Çeşitli konulardaki kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer)
+   - [**QNB Finans GİB (Gelir İdaresi Başkanlığı) Web Servisleri Dokümanları**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer/QNB%20Finans%20GİB%20Servisleri)
  - [**Donanım**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Donanım)
  - [**Excel**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Excel)
  - [**İşletim Sistemleri**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/İşletim%20Sistemleri)
