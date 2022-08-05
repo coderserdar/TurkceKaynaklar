@@ -27,6 +27,9 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
   - [**Programlama Teknikleri** (*Agile, Scrum, Tasarım Örüntüleri vb.*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri)
     - [**Tasarım Örüntüleri**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri/Tasarım%20Örüntüleri)
  - [**Ders Notları ve Slaytlar** (*Çeşitli BT Teknolojileri ilgili ders notları ve slaytlar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar)
+   - [**Algoritmalar**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Algoritmalar)
+   - [**Bilgisayar Mimarisi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Bilgisayar%20Mimarisi)
+   - [**Bilgisayar Mühendisliğine Giriş**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Bilgisayar%20Mühendisliğine%20Giriş)
  - [**Analiz**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Analiz)
  - [**Diğer** (*Çeşitli konulardaki kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer)
    - [**QNB Finans GİB (Gelir İdaresi Başkanlığı) Web Servisleri Dokümanları**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer/QNB%20Finans%20GİB%20Servisleri)
@@ -40,5 +43,6 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
  - [**Veri Bilimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Bilimi)
  - [**Veri Tabanı** (*VTYS*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Tabanı)
  - [**Veri Yapıları ve Algoritmalar**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar)
+   - [**Algoritmalar Ders Notları**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar/Algoritma%20Ders%20Notları)
 
  Ellerinde Türkçe kaynak bulunup paylaşmak isteyen arkadaşlar benimle [E-Mail](mailto:serdargul@outlook.com) üzerinden iletişime geçerlerse sevinirim.
