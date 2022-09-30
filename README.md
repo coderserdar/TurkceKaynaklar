@@ -18,6 +18,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
    - [*C#*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/C%20Sharp)
      - [*C# Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/C%20Sharp/C%20Sharp%20Ders%20Notları)
    - [*Delphi*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/Delphi)
+     - [*Eğitim Videoları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/Delphi/Eğitim%20Videoları)
    - [*Genel* (*nesneye Yönelik Programlama vb.*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/Genel)
    - [*Java*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/Java)
    - [*PHP*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/PHP)
