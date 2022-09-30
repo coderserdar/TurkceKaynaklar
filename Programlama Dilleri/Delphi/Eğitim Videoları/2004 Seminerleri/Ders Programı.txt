@@ -1,0 +1,10 @@
+1. Delphi IDE : menüler, project options gibi ekranlarýn tanýtýmý, code insight, kýsayollar vs. gibi tüm çalýþma ortamýnýn tanýtýlmasý (Mustafa) 
+2. Object Pascal (Hüseyin) 
+3. Ýleri Object Pascal (Gökmen) 
+4. Component hiyerarþisi ve component yazma (temel olarak) (Gökmen) 
+5. Veritabaný : genel bilgiler, tasarým, field, indexler, tablo kavramlar, Sybase ASA ve/veya Interbase ile table'lar oluþturma, trigger, stored procedure, refferantial integrity, database eventleri, sistem tablolari vs... (Fahrettin) 
+6. SQL: standart select cümleleri, ileri düzey sql cümleleri, sub query'ler, PL/SQL(Oracle'ca) veya Transact SQL(sybase'ce) (Fahrettin) 
+7. Interbase/Firebird (Kuri_TLJ) 
+8. Sitedeki makale'nin pratik bir uygulamasi ve bir projeye kattýgý gucun gosterilmesi. Trigger ve stored procedure'lerin etkin kullanýlmasý ile bir stok veya cari hesap projesinin delphi tarafinda sadece basit gridler ve formlar yardimi ile nasil kolayca yapilabileceginin gosterilmesi... (Fahrettin) 
+9. Raporlama (Mustafa) 
+10. Delphi 8 (Delphi .net) ve .net framework 
