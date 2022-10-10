@@ -31,6 +31,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
     - [*ASP .NET Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Web%20Geliştirme/ASP%20NET%20Ders%20Notları)
   - [**Programlama Teknikleri** (*Agile, Scrum, Tasarım Örüntüleri vb.*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri)
     - [*Tasarım Örüntüleri*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri/Tasarım%20Örüntüleri)
+    - [*Yazılım Mimarileri*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Teknikleri/Yaz%C4%B1l%C4%B1m%20Mimarileri)
  - [**Ders Notları ve Slaytlar** (*Çeşitli BT Teknolojileri ilgili ders notları ve slaytlar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar)
    - [*Algoritmalar*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Algoritmalar)
    - [*Bilgisayar Mimarisi*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Bilgisayar%20Mimarisi)
