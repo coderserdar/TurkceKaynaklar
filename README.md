@@ -58,6 +58,13 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
  - [**Siber Güvenlik**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik)
  - [**Veri Bilimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Bilimi)
  - [**Veri Tabanı** (*VTYS*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Tabanı)
+   - [*Genel*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Genel)
+   - [*Microsoft Access*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Microsoft%20Access)
+   - [*Microsoft SQL Server*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Microsoft%20SQL%20Server)
+   - [*MySQL*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/MySQL)
+   - [*Oracle*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Oracle)
+     - [*Oracle Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Oracle/Oracle%20Ders%20Notlar%C4%B1)
+   - [*T-SQL*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/T-SQL)
  - [**Veri Yapıları ve Algoritmalar**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar)
    - [*Algoritmalar Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar/Algoritma%20Ders%20Notları)
 
