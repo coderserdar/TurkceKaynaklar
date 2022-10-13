@@ -1,0 +1,29 @@
+ssh baðlantýmýzý yapýyorz.
+
+cd /etc/sysconfig/network-scripts/
+
+dizinine giriyoruz .
+
+ls ile dosyalarý görüyoruz .
+
+cp ifcfg-eth0 ifcfg-eth0:1
+
+olarak kopyala yapýþtýrla eth0 nun bir kopyasýný oluþturuyoruz .
+
+nano ile ifcfg-eth0:1 dosyamýzý açýp ip kýsmýný ve eth0 kýsmýný düzenleyip kaydedip
+
+service network restart diyerek ip mizi eklemiþ oluyoruz . Dikkatli düzenleyin networkü restart ettiðiniz de sorun olursa baðlantýnýzý kesecektir.
+
+yada
+nano ile /etc/rc.local e giriyoruz (nano /etc/rc.local) sora
+
+en alta yazýyoruz.
+
+ifconfig eth0:1 ip adresi subnetmask 255.255.xx.xx up
+ifconfig eth0:2 ip adresi subnetmask 255.255.xx.xx up
+
+tam olarak komut söle örn: 192.168.1.1 ip adresini eklicez subnetmaskide 255.255.255.255 olsun.
+
+ifconfig eth0:1 192.168.1.1 subnetmask 255.255.255.255 up
+
+iþlemden sonra service network restart yapýyoruz ve ip eklenmiþ oluyor . 
