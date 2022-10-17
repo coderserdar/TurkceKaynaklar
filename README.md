@@ -60,7 +60,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
    - [*Kablosuz Ağlar Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Network/Kablosuz%20Ağlar%20Ders%20Notları)
  - [**Proje Yönetimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Proje%20Yönetimi)
  - [**Siber Güvenlik**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik)
-   - [*Beyaz Şapkalı Hacker Eğitimi*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik/Beyaz%20Şapkalı%20Hacker%20Eğitimi%20(2011))
+   - [*Beyaz Şapkalı Hacker Eğitimi*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik/Beyaz%20Şapkalı%20Hacker%20Eğitimi)
  - [**Veri Bilimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Bilimi)
  - [**Veri Tabanı** (*VTYS*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Tabanı)
    - [*Genel*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Genel)
