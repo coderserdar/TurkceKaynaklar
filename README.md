@@ -51,6 +51,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
    - [*Yazılım Mühendisliği*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/Yazılım%20Mühendisligi)
    - [*İnternet Tabanlı Programlama*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Ders%20Notları%20ve%20Slaytlar/İnternet%20Tabanlı%20Programlama)
  - [**Analiz**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Analiz)
+ - [**Mülakat** *(Yazılım vb. konulardaki mülakatlarda faydalı olacak bilgilerin bulunduğu bir klasör)*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Mülakat)
  - [**Diğer** (*Çeşitli konulardaki kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer)
    - [*QNB Finans GİB (Gelir İdaresi Başkanlığı) Web Servisleri Dokümanları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Diğer/QNB%20Finans%20GİB%20Servisleri)
  - [**Donanım**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Donanım)
