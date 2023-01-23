@@ -10,7 +10,7 @@ Bu repo içerisinde
  - **Slaytlar** gibi Türkçe dosyalara ulaşabilirsiniz.
 
 Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliriz) aşağıdaki gibidir
- - [**Programlama Dilleri** (*C#, PHP, C, C++, Assembly, Visual Basic gibi dillere ait kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri)
+ - [**Programlama Dilleri** (*C#, PHP, C, C++, Assembly, Visual Basic, Delphi, Java, Python gibi dillere ait kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri)
    - [*Assembly*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/Assembly)
    - [*C*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/C)
      - [*C Dili Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Programlama%20Dilleri/C/C%20Dili%20Ders%20Notları)
