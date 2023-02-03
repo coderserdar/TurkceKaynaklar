@@ -2,7 +2,9 @@
 
 Burada *yazılım*, *siber güvenlik*, *analiz* vb. pozisyonlar için mülakatlara girecek olan arkadaşlara faydalı olabilecek kaynak ve linkleri derlemeye çalıştım.
 
-Bu linkler aşağıdadır
+*İngilizce* ile bir problemi olmayan arkadaşlar için [**Documents**](https://github.com/coderserdar/Documents/tree/main/Interview) repo adresinde de çeşitli kaynaklar bulunmaktadır.
+
+Türkçe bazı linkler aşağıdadır
  - **Yazılım**
    - *Genel*
      - [*Yazılım Mülakat Soruları*](https://dev.to/hakanyalitekin/yazilim-mulakat-sorulari-md7)
