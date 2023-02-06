@@ -72,6 +72,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
  - [**Makine Öğrenimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Makine%20Öğrenimi)
  - [**Network** (*Ağ Teknolojilerine ait kitaplar*)](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Network)
    - [*Kablosuz Ağlar Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Network/Kablosuz%20Ağlar%20Ders%20Notları)
+   - [*Zabbix*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Network/Zabbix)
  - [**Proje Yönetimi**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Proje%20Yönetimi)
  - [**Siber Güvenlik**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik)
    - [*Beyaz Şapkalı Hacker Eğitimi*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Siber%20Güvenlik/Beyaz%20Şapkalı%20Hacker%20Eğitimi)
