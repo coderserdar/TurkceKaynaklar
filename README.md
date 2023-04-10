@@ -84,6 +84,7 @@ Bu repo içerisindeki kaynakların ağaç yapısı (site haritası da diyebiliri
    - [*MySQL*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/MySQL)
    - [*Oracle*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Oracle)
      - [*Oracle Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/Oracle/Oracle%20Ders%20Notlar%C4%B1)
+   - [*PostgreSQL*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/PostgreSQL)
    - [*T-SQL*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Taban%C4%B1/T-SQL)
  - [**Veri Yapıları ve Algoritmalar**](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar)
    - [*Algoritmalar Ders Notları*](https://github.com/coderserdar/TurkceKaynaklar/tree/main/Veri%20Yapıları%20ve%20Algoritmalar/Algoritma%20Ders%20Notları)
