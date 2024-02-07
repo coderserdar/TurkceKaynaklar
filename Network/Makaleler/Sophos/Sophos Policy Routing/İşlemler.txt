@@ -1,0 +1,10 @@
+Çözüm....:Policy Routing
+1-sophos arayüzü aç.
+2-Seçeneklerden Firewall tıkla. Karşında Kocaman + işareti ile belirlenmiş "Add Firewall Rule" tıkla. Karşına çıkandan User/Netwok Rule tıkla.
+3- karşına gelen ekrandan kurala isim ver.
+4-aşağıda SOURCE tabında Source Zone a kaynağı seç (benim kaynağım wifi, wifiden gelenleri lan a yönlendireceğim.)Source network device a Allah ne verdiyse seç Yani ANY 
+5-Destination tabından destination zone hedefi seç.
+(wifiden gelenenler Lan a gideceği için Lan ı seçiyorum)
+6-Destination network seç( ben ip santral pc için ip oluşturdum onu seçtim)
+7- Services kısmı Yine Allah ne verdiyse ANY seçtim.
+ve final save.

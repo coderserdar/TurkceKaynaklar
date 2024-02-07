@@ -1,0 +1,6 @@
+1- sophos arayüz aç.
+2-soldan VPN sekmesine gel
+3-Karşına çıkan ekrandan SSL VPN tabına gel
+4-AZ aşağıda vpn remote acess seçeneğinin karşısındaki kaleme tıkla 
+5- karşına gelen ekranda orta yerlerde Use as default gateway seçeneğini OFF konumuda getir
+6-Apply de bitti.
