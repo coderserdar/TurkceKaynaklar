@@ -1,0 +1,8 @@
+1- exchange sunucusunda "Exchange Management Shell" çift tıklanır.
+2- Karşımıza tanıdık olduğumuz cmd veya powerhell arayüzüne benzer ekran açılır.
+3-Eğer mail grubundaki herkese izin verilmesi istenirse...:
+Set-DistributionGroup “mailgrubuAlias(adını)” -GrantSendOnBehalfTo mailgrubuAlias(adını)
+4- Eğer tek kişi için isternirse ....:
+Set-DistributionGroup “mailgrubu” GrantSendOnBehalfTo KullanıcıAdı
+5-yazılır ve enterlanarak işlemimiz tamamlanmış olur.
+6- Aşağıyada foto ekliyorum. Yapamadın mı mesaj yaz ben senin yerine yaparım.

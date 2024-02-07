@@ -1,0 +1,4 @@
+1-sunucu yeniden başlatılır ve F8 ile Güvenli mod (safe mod) açılır.
+2-Başlat menüsünden çalıştır açılır ve "msconfig" sistem yapılandırma aracı açılır.
+3- Karşımıza gelen yapılandırma ekranından Ön yükleme seçeneklerinden Güvenli önyükleme onay tiki kaldırılır.
+4-sistem yeniden başlatılır.
