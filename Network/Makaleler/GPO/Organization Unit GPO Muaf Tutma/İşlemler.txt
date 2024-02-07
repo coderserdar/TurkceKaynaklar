@@ -1,0 +1,7 @@
+Bir yönetici (başkası demez zaten emin olun) Ya bu "GPO kuralı varmış, Ondan beni çıkar" derse yapılacaklar.
+1-GPO (group policy management aç.
+2-Oluşturduğun kuralın üstüne gel sağ tuş yap Edit de.
+3-Karşına gelen ekrandan yine kuralının ismine gelip sağ tuş Properties de.
+4-Kaşına gelen menüden securty tabına gel Add ye tıkla. karşına çıkan menüden hangi kullanıcı muaf tutulacaksa ismini bul ok de.
+5-Gelen menüden kullanıcının ismi seçiliyken Alt kısımda "Permissions for" ile başlayan kısımda "Apply group policy" seçeneğinin önündeki kutucuklardan "Deny" yazanı seçip ok de.
+6-Kullanıcı bilgisayarını yeniden başlattığında kural geçerli olacaktır.
