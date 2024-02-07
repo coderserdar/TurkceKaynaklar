@@ -1,0 +1,6 @@
+1-Firewall kuralı oluştur.
+2- Incoming sekmesine Tüm local interface leri seç.
+3- Outgoing sekmesine - İnternet çıkış bacağı
+4- Destination sekmesine Asağıdaki servisleri ekle
+5-Action kısmından DENY seç
+6- son olarak oluşturduğun kuralı en yukarıya taşı.
