@@ -1,0 +1,6 @@
+1- Denetim Masası
+2-Programlar ve Özellikler
+3-Karşına gelen menüden "Windows Özelliklerini aç veya kapat"
+4-Karşına gelen seçeneklerden
+"SMB 1.0/CIFS Dosya Paylaşım Desteği" Kutucuğunu seçip TAMAM diyerek onaylayıp ilgili özeliği kuruyoruz.
+5- Bilgisayarımızı yeniden başladıktan sonra. Rahatlayıp mutluluğu ve o hazzı yaşıyoruz. Başardık.
