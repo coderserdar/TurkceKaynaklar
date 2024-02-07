@@ -1,0 +1,7 @@
+1- Öncelikli olarak paylaşacağımız klasörün izin yapısını düzenliyoruz (Nasıl diye sorma. Takip etseydin öğrenirdir. Olmadı Google sor)
+2-Dc sunucumuzdan GPO (group Policy Management konsolu açıyoruz.
+3- Karşımıza gelen ekrandan "ben Domain kullanıcılarıma kural oluşturacağım için direk domains üzerine gelip sağ tuş " create a GPO in this domain, and Link it here... seçeneğine tıklıyorum.
+4- Kaşıma gelen ekrandan GPO kuralıma isim verip Ok' liyorum. Benim örneğimde isim ortak_klasor_kısayol olarak isimlendirdim. 
+5- Karşıma gelen ekrandan oluşturmuş olduğum GPO kuralının üzerine geliğ mouse sağ tuş Edit diyorum.
+6-Karşıma gelen ekrandan User Configuration / Windows Settings /Shortcut / New / Shortcut yolunu izleyerek ilgili menüyü açıyorum.
+7-Karşımıza gelen ekrandan Action kısmına create Name kısmına belirlediğiniz bir isim location kısmına Desktop target path kısmına burası çokomelli paylaşım yaptığınız klasörün ağ yolunu yazıyoruz. ıcon file path kısmından klasör ikonumuzu seçip Ok butonu ile kuralmıza FINISH HIM!!!! yapıyoruz.

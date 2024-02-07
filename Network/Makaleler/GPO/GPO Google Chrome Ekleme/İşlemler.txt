@@ -1,0 +1,7 @@
+1-GPO(Group Policy Management) açıyoruz.
+2-Karşımıza gelen ekrandan sağda domain ismimizin üstüne gel sağ tuş "Create a GPO in this domain, and Link it here... tıkla.
+3-karşıma gelen ekrandan kuralıma isim ver. Ben google_chrome_install_auto dedim. (hemen hazıra konup da sende ismini aynı yapma hep öyle yapıyorsunuz ama)
+4-Kuralım sol tarafta oluştu.kuralıma tıklıyorum. yan ekrandan setting tabına gelip boş alanda mouse ile sağ tıklayıp "Edit" diyorum.
+5-Karşıma Gelen ekrandan "computer configuration / Policies / software settings / software installations" seç yan ekrandan mouse ile sağ tuş yap "New / Package" seçeneğine tıkla
+6- Yükleme paketin neredeyse. onu seç. (bu arada eveyone yetkisi verip yükleme paketini seçerken adres yoluna paylaşım verdiğim klasörün Network adresini yazıyorum. Bak çok önemli olmadı deme sonra)
+7-Karşıma Gelen ekrandan "Assigned" seçip "Ok" deyip bitiriyorum.
