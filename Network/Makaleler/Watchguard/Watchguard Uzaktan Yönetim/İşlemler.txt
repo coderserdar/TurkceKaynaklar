@@ -1,0 +1,7 @@
+1-firewall a login oluyoruz. Ben web arayüzünü kullanıyorum. Çok saçma bir arayüzü var. Watchguardın bu arada. System manager bana zor.
+2-Karşıma çıkan menüden soldan FİREWALL (vallahi menüde de büyük İ nedense) Firewall Policies tıkla.
+3-Karşına gelen menüden Watchguard Web UI yazan kurala tıkla. (sytem manager üzerinden bağlanmak için ise Wg- Firebox Mgmt)
+4-karşına gelen ekrandan ADD ye tıkla.
+5- Karşına gelen ekrandan Member typden Host IPv4 seç. Alttaki kutucuğa Public ip adresini yaz ok de ( sabit ip yani hani bu internet sağlayıcısından alınan ha)
+6-Aşağıda SAVE butonuna tıkla.
+7- Tamam bu kadar.

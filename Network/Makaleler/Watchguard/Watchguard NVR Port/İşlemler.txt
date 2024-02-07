@@ -1,0 +1,6 @@
+1-Firewall Login oluyoruz.(havalı yazacam azcık) Firewall WatchGuard Technologies
+2-İlk yaptığım iş DASHBOARD - Traffic Manager tıklıyoruz. 
+3- Burasını nasıl anlatayımki azcık karışık. neyse devam
+4- Traffic Monitörde Kaynak ip yani hangi cihazdan sorgulama yapıyorsan o cihazın ip nini büyüteç e tıklayıp yazıyoruk. Ana birde ne görelim DENY mesajları var. Benim örneğimde internal policy de engel varmış. DENY (yasak enegelli demek) Bunu gördükten sonra
+5-FİREWALL altından Blocked Port a tıklıyoruz. Kaşımıza Çıkan ekranda gördüğümüz Dev gibi 8000 hemen seçip Remove (sil yani) Deyip Kayıt ediyoruz.
+6- Tekrar Traffic Monitörü incelediğimde DENY mesajlarının ALLOW (yani ooo reyiz hoşgeldin sefa getirdin) mesajına döndüğünü görüp kapatıyoruz.
