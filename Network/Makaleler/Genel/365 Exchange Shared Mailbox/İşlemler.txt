@@ -1,0 +1,10 @@
+1- outlook ofis365 com/ecp adresinden Exchange Online admin panele gidiyoruz.
+2- Ben Türkçe kullanıyorum. Adamalar yapmış neden kullanmayam Bağırma Engilizce değil diye.
+3- Sol menüden alıcılar a tıklıyoruz.
+4-Menüden Paylaşılan a gelip + işaretine basıyoruz.
+5-Karşımıza gelen meüden oluşturacağımız mail adresinin bilgilerini giriyoruz.
+6- Sonra bu oluşturacağın mail adresimde kim yetkili olacaksa yani kim mail gönderip alacaksa onu belirtiyorsun. 
+7- Outlook açıyorsun. Dosya/Hesap Ayarları
+8-Karşına gelen menüden Değiştir tıklayıp oradan gelişmiş diyoruz.
+9- karşımıza gelen menüden az önce oluşturduğumuz mail adresini yazıp. Herşeye Ok reyizzz diyoruz. 
+10- Bu kadar. Sonrası Test

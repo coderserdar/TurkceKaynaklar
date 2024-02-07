@@ -1,0 +1,8 @@
+1- Fortigate web portal login oluyoruz.
+2-Standart da kapalı olan Load Balancing özelliğini açmak için "System/Future Visibility/Load Balance butonunu aktif ediyoruz.
+3-Load Balance aktif ettikten sonra Policy & object kısmında Virtual Server özelliği eklenmiş oldu.
+4-Virtual Servers tabı altında "Health Check" seçeneğine girip port kontrolü ve monitoring için bir Health Check kural oluşturuyorum.
+5-Sonrasında "Virtual Servers" tabına gelip ilgili alanları dolduruyorum. Aşağıdaki fotolarda örnekler mevcuttur.
+
+Benim örneğimde dış Ip numaram 192.168 . 1 . 111 load balance için sunucularımın ip numaraları ise 192 . 168 . 184 . 68 - 192 . 168 . 184 . 69 dur.
+Aynı menüden "Real Servers" tabına gelerek sunucularımızı ve portlarımızı ekliyoruz.

@@ -1,0 +1,11 @@
+1-Server Manager aç.
+2-Dashboard dan (arayüz yani maksat artistlik olsun) "Tools"
+3-Karşına çıkan açılır menüden "Computer Management" tıkla.
+4-karşına gelen menüden "Action" butonuna tıkla.
+5-Yine karşına gelen menüden "Connect to anather computer" a tıkla.
+6-Karşına çıkan menüden "Another computer" seç ve karşısına pc ismi yada ip numarasını yazıp (başına iki adet \\ bundan koymazsan olmaz) "Ok" tıkla.
+7-Karşına çıkan menüden "System tools / Local Users and Grops / Groups" seç
+8-Yandaki menüden "Admisitrators" çift tıkla.
+9-Karşına çıkan menüden Add butonuna tıkla.
+10-karşıan çıkan menüden Administrator vereceğin kişinin ismini yazıp check names e tıkla ve ismini seçip sonra "ok" butonuna tıkla.
+11-Sonraki menüyede ok de.

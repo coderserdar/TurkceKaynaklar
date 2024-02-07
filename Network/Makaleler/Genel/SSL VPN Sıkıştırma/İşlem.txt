@@ -1,0 +1,7 @@
+Bildiğiniz gibi en çok kullanılan SSL VPN portları olan 10443 / 443 portlarını kullanmaktan sakınınız...
+* 2 faktörlü kimlik doğrulaması (en azından e-mail) hizmete alınız.
+* Firewall database veya yerel kullanıcılar yerine LDAPS kullanınız.
+* Eğer imkanınız varsa VPN kullanıcılarının Public ip leri sabitleyip, tanımları buna göre yapınız.
+* Geo Location ayarı yaparak SSL VPN kullanımı hizmetini ülke bazında sınırlayınız.
+*Aynı kullanıcının birden fazla kaynaktan bağlantı sağlayamaması için limit getiriniz.
+*IPv4 firewall kurallarında ALL to ALL değil belirli protokolleri kullanınız.
